@@ -1,0 +1,25 @@
+{
+  "exclude": ["./node_modules", "./dist"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "lib": ["es5", "es6", "dom", "es2021"],
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "noImplicitOverride": true,
+    "target": "es2021",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "strict": true,
+    "outDir": "./dist",
+    "strictNullChecks": false,
+    "baseUrl": "./src",
+    "typeRoots": ["./@types", "./node_modules/@types"]
+  },
+  "rules": {
+    "quotemark": [true, "single"]
+  }
+}
