@@ -2,6 +2,7 @@ import { DeepPartial, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "data-source";
 import { Product } from "entity/serviceList/ProductModel";
+import { categoryType } from "entity/enum/category";
 
 @singleton()
 export class ProductDao {
@@ -24,8 +25,15 @@ export class ProductDao {
     });
   }
 
-  getAll(): Promise<Product[]> {
+  getByCategory(category:categoryType): Promise<Product[]> {
     return this.repository.find({
+      where: { category},
+      relations: ["service"], // optional, include Service data
+    });
+  }
+  getOne(id:number): Promise<Product|null> {
+    return this.repository.findOne({
+      where: { id, },
       relations: ["service"], // optional, include Service data
     });
   }

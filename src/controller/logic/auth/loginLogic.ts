@@ -10,8 +10,12 @@ import {
   verifyToken,
 } from "../../../auth/login";
 import { LoginDao } from "dao/auth/loginDao";
-import { UserCreateDataClass, UserDataClass } from "controller/dataClass/auth/loginDataclass";
+import {
+  UserCreateDataClass,
+  UserDataClass,
+} from "controller/dataClass/auth/loginDataclass";
 import { loginJwt } from "utils/jwt/interface";
+import { userType } from "entity/enum/userType";
 
 @autoInjectable()
 export class LoginLogic {
@@ -19,10 +23,10 @@ export class LoginLogic {
 
   /**
  @desc Create user
-  @route  api/auth/register/
+  @route  api/auth/customer/register/
   @access private
   **/
-  create = async (
+  createCustomer = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -43,7 +47,7 @@ export class LoginLogic {
     }
 
     const check = await this.loginDao.repository.findOne({
-      where: { username: validBody.username, userType: validBody.userType },
+      where: { username: validBody.username, userType: userType.CUSTOMER },
     });
     if (check) {
       return res.status(400).json({
@@ -54,7 +58,9 @@ export class LoginLogic {
 
     const data = await this.loginDao.create({
       ...validBody,
+
       password: hashpass,
+      userType: userType.CUSTOMER,
     });
     delete data.password;
     return res.status(200).json({
@@ -62,6 +68,55 @@ export class LoginLogic {
       data: data,
     });
   };
+
+  /**
+ @desc Create user
+  @route  api/auth/customer/register/
+  @access private
+  **/
+  createAdmin = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    const validBody = plainToInstance(UserCreateDataClass, req.body);
+    const errors = await validate(validBody);
+    if (errors.length > 0) {
+      return res.status(400).json({
+        errors,
+        message: "data format was wrong",
+      });
+    }
+    const { password } = validBody;
+    if (password.length < 8) {
+      return res.status(400).json({
+        message: "password must be atleast 8 characters",
+      });
+    }
+
+    const check = await this.loginDao.repository.findOne({
+      where: { username: validBody.username, userType: userType.ADMIN },
+    });
+    if (check) {
+      return res.status(400).json({
+        message: "username already exist",
+      });
+    }
+    const hashpass = await hashPassword(password);
+
+    const data = await this.loginDao.create({
+      ...validBody,
+
+      password: hashpass,
+      userType: userType.ADMIN,
+    });
+    delete data.password;
+    return res.status(200).json({
+      status: "success",
+      data: data,
+    });
+  };
+
 
   /**
  @desc login user

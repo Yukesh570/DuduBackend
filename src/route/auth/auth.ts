@@ -9,7 +9,8 @@ export function authRoute(): Router {
 
   router.post("/login", catchAsync(controller.login));
 
-  router.post("/register", catchAsync(controller.create));
+  router.post("/customer/register", catchAsync(controller.createCustomer));
+  router.post("/admin/register", catchAsync(controller.createAdmin));
 
   return router;
 }

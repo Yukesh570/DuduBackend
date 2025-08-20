@@ -30,9 +30,15 @@ export function productRoute(): Router {
     catchAsync(controller.getRandom)
   )
 
+      router.get(
+    "/getOne/:id",
+    catchAsync(controller.getOne)
+  )
+
+
   router.get(
-    "/getAll",
-    catchAsync(controller.getAll)
+    "/getByCategory/:category",
+    catchAsync(controller.getByCategory)
   )
 
   router.delete("/delete/:id", 

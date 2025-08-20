@@ -6,6 +6,7 @@ import {
 } from "controller/dataClass/serviceList/productDataClass";
 import { validateBodyInput } from "controller/helper/validate";
 import { ProductDao } from "dao/serviceList/productDao";
+import { categoryType } from "entity/enum/category";
 
 @autoInjectable()
 export class ProductController {
@@ -90,46 +91,82 @@ export class ProductController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    const product = await this.productDao.repository
-      .createQueryBuilder("product")
-      .orderBy("RANDOM()")
-      .limit(2)
-      .getMany();
+    const categories = ["Food", "Shop", "LiHaMoto"];
+    const results: any[] = [];
+
+    for (const category of categories) {
+      const products = await this.productDao.repository
+        .createQueryBuilder("product")
+        .where("product.category = :category", { category })
+
+        .orderBy("RANDOM()")
+        .limit(2)
+        .getMany();
+      results.push(...products);
+    }
     res.status(200).json({
       status: "success",
-      data: product,
+      data: results,
     });
   };
 
   /**
    @desc Create product
-   @route get /api/product/getByPanel
+   @route get /api/product/getOne
    @access private
    **/
 
-  getbypanel = async (
+  getOne = async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    const query = req.query;
+    try {
+      const id = Number(req.params.id);
+      if ( !id) {
+        return res
+          .status(400)
+          .json({ status: "fail", message: "params is required" });
+      }
+      const products = await this.productDao.getOne(id);
+      res.status(200).json({
+        status:"success",
+        data:products
+      })
+    } catch (error) {
+      next(error);
+    }
   };
 
   /**
    @desc Create product
-   @route get /api/product/getByPanel
+   @route get /api/product/getByCategory
    @access private
    **/
 
-  getAll = async (
+  getByCategory = async (
     req: Request,
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    const product = await this.productDao.getAll();
-    res.status(200).json({
-      status: "success",
-      data: product,
-    });
+    try {
+      // Assuming category is a URL param
+      const category = req.params.category as categoryType;
+
+      if (!category) {
+        return res
+          .status(400)
+          .json({ status: "fail", message: "Category is required" });
+      }
+
+      const products = await this.productDao.getByCategory(category);
+
+      res.status(200).json({
+        status: "success",
+        data: products,
+      });
+    } catch (error) {
+      next(error);
+    }
   };
 }

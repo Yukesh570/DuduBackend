@@ -24,11 +24,11 @@ export class UserCreateDataClass {
   @Type(() => String)
   password: string;
 
-  @IsDefined()
-  @IsString()
-  @IsEnum(userType)
-  @Type(() => String)
-  userType: userType;
+  // @IsDefined()
+  // @IsString()
+  // @IsEnum(userType)
+  // @Type(() => String)
+  // userType: userType;
 }
 export class UserDataClass {
   @IsDefined()
