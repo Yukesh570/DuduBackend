@@ -21,8 +21,11 @@ export class CartDao {
       where: { id: id },
     });
   }
-  getAll(): Promise<Cart[]> {
-  return this.repository.find();
+  getAll(userId: number): Promise<Cart[]> {
+    console.log("dao",userId);
+  return this.repository.find({
+    where:{userId}
+  });
 }
 
   delete(id: number) {

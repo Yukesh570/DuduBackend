@@ -14,11 +14,6 @@ export class CartCreateBody {
   @Type(() => Number)
   productId: number;
 
-  @IsDefined()
-  @IsNotEmpty()
-  @IsNumber()
-  @Type(() => Number)
-  userId: number;
 
   @IsDefined()
   @IsNotEmpty()
@@ -34,11 +29,6 @@ export class CartEditBody {
   @Type(() => Number)
   productId?: number;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @IsNumber()
-  @Type(() => Number)
-  userId?: number;
 
   @IsOptional()
   @IsNotEmpty()

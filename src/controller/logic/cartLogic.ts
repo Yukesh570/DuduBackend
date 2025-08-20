@@ -2,7 +2,10 @@ import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
 import { validateBodyInput } from "controller/helper/validate";
 import { CartDao } from "dao/cartDao";
-import { CartCreateBody, CartEditBody } from "controller/dataClass/cartDataclass";
+import {
+  CartCreateBody,
+  CartEditBody,
+} from "controller/dataClass/cartDataclass";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()
@@ -18,20 +21,41 @@ export class CartController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    console.log("herererererererere",req.user);
+    console.log("herererererererere", req.user);
     const { validatedData: validBody, errors } = await validateBodyInput(
       req,
       CartCreateBody
     );
-    console.log("=======herererererererere",validBody);
 
     if (errors) return res.status(400).json(errors);
     // if (req.user.userType !== "admin")
     //   return res.status(401).json({ message: "Unauthorized" });
-    const cart = await this.cartDao.create({
-      ...validBody, 
+    const existingData = await this.cartDao.repository.findOne({
+      where: { userId: req.user.id, productId: validBody.productId },
     });
- 
+    if (existingData) {
+      const { validatedData: validBody, errors } = await validateBodyInput(
+        req,
+        CartEditBody
+      );
+      const { quantity } = validBody;
+      if (errors) return res.status(400).json(errors);
+      console.log("herererererererere", existingData);
+      const cart = await this.cartDao.update(existingData.id, {
+        ...validBody,
+        quantity: quantity + existingData.quantity,
+      });
+
+      return res.status(200).json({
+        status: "success",
+      });
+    }
+
+    const cart = await this.cartDao.create({
+      ...validBody,
+      userId: req.user.id,
+    });
+
     res.status(200).json({
       status: "success",
       data: cart,
@@ -92,12 +116,11 @@ export class CartController {
     next: NextFunction
   ): Promise<any> => {
     const query = req.query;
-
   };
 
-    /**
+  /**
    @desc Create cart
-   @route get /api/cart/getByPanel
+   @route get /api/cart/getAll
    @access private
    **/
 
@@ -106,8 +129,10 @@ export class CartController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    const cart=await this.cartDao.getAll();
- res.status(200).json({
+    const id = req.user.id;
+    console.log("getall", id);
+    const cart = await this.cartDao.getAll(id);
+    res.status(200).json({
       status: "success",
       data: cart,
     });
