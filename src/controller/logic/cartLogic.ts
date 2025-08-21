@@ -125,16 +125,45 @@ export class CartController {
    **/
 
   getAll = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<any> => {
-    const id = req.user.id;
-    console.log("getall", id);
-    const cart = await this.cartDao.getAll(id);
-    res.status(200).json({
-      status: "success",
-      data: cart,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<any> => {
+  const userId = req.user.id;
+  const cart = await this.cartDao.getAll(userId); // raw cart items with product relation
+
+  // Transform raw cart data into grouped structure by product category ("shop")
+  const grouped = cart.reduce((acc: any, cartItem: any) => {
+    const product = cartItem.__product__;
+    const category = product.category || "Other";
+
+    if (!acc[category]) {
+      acc[category] = {
+        shop: category,
+        items: [],
+      };
+    }
+
+    acc[category].items.push({
+      id: String(cartItem.id),
+      img: product.image,                      // or build full image URL here
+      name: product.name,
+      extra: product.description,
+      price: product.price,
+      qty: cartItem.quantity,
+      // Add other fields if needed (oldPrice, ends, etc.)
     });
-  };
+
+    return acc;
+  }, {});
+
+  // Convert grouped object to array
+  const groupedArray = Object.values(grouped);
+
+  res.status(200).json({
+    status: "success",
+    data: groupedArray,
+  });
+};
+
 }

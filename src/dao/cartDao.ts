@@ -3,12 +3,11 @@ import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
 import { Cart } from "entity/cartModel";
 
-
 @singleton()
 export class CartDao {
   public repository = AppDataSource.getRepository(Cart);
 
-  create(cart: Omit<Cart, "id"|"product"|"user">): Promise<Cart> {
+  create(cart: Omit<Cart, "id" | "product" | "user">): Promise<Cart> {
     return this.repository.save(this.repository.create(cart));
   }
 
@@ -22,17 +21,14 @@ export class CartDao {
     });
   }
   getAll(userId: number): Promise<Cart[]> {
-    console.log("dao",userId);
-  return this.repository.find({
-    where:{userId}
-  });
-}
+    console.log("dao", userId);
+    return this.repository.find({
+      where: { userId },
+      relations: ["product"], // fetch related Service if needed
+    });
+  }
 
   delete(id: number) {
     return this.repository.delete({ id });
   }
-
-
-
-
 }
