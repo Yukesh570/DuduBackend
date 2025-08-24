@@ -1,6 +1,9 @@
 export enum statusType {
-  PENDING = "Pending",
+  ORDERPLACED	 = "OrderPlaced",
+  CONFIRMED = "Confirmed",
   SHIPPED = "Shipped",
   DELIVERED = "Delivered",
+  CANCELLED = "Cancelled",
+  RETURNED = "Returned"
 
 }

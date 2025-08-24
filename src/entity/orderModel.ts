@@ -13,6 +13,7 @@ import {
 import { User } from "./users/user";
 import { statusType } from "./enum/status";
 import { OrderItem } from "./orderItemModel";
+import { Moment } from "moment";
 
 // import { GenericForeignKey } from "helpers/entity/genericForeignKeyDecorator";
 
@@ -20,19 +21,22 @@ import { OrderItem } from "./orderItemModel";
 export class Order {
   @PrimaryGeneratedColumn()
   id!: number;
- 
+  @Column({ type: "integer", nullable: true  })
+  userId: number;
   @ManyToOne(() => User, (user) => user.orders, { lazy: true })
   user!: Relation<Promise<User>>;
 
-   @Column({ type: "enum",enum:statusType })
-   status: statusType; 
-
+  @Column({ type: "enum",enum:statusType })
+  status: statusType; 
   @Column({ type: "decimal", precision: 10, scale: 2 })
   price: number;
 
   @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { lazy: true })
-    orderItems!: Promise<OrderItem[]>;
+  orderItems!: Promise<OrderItem[]>;
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt?: Moment;
+
+  @CreateDateColumn()
+  estimatedDeliveryDate: Date;
 
 }
