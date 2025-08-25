@@ -10,6 +10,7 @@ import { OrderCreateBody } from "controller/dataClass/orderDataClass";
 import { AppDataSource } from "data-source";
 import { OrderItemDao } from "dao/orderItemDao";
 import { parse } from "path";
+import { statusType } from "entity/enum/status";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()
@@ -53,32 +54,32 @@ export class OrderController {
         data: results,
       });
     } catch (err) {
-    next(err);  
+      next(err);
     }
   };
-//   /**
-//    @desc Create order
-//    @route put /api/order/edit:id
-//    @access private
-//    **/
-//   edit = async (
-//     req: Request,
-//     res: Response,
-//     next: NextFunction
-//   ): Promise<any> => {
-//     const id = Number(req.params.id);
-//     const { validatedData: validBody, errors } = await validateBodyInput(
-//       req,
-//       CartEditBody
-//     );
-//     if (errors) return res.status(400).json(errors);
+  //   /**
+  //    @desc Create order
+  //    @route put /api/order/edit:id
+  //    @access private
+  //    **/
+  //   edit = async (
+  //     req: Request,
+  //     res: Response,
+  //     next: NextFunction
+  //   ): Promise<any> => {
+  //     const id = Number(req.params.id);
+  //     const { validatedData: validBody, errors } = await validateBodyInput(
+  //       req,
+  //       CartEditBody
+  //     );
+  //     if (errors) return res.status(400).json(errors);
 
-//     const order = await this.orderDao.update(id, { ...validBody });
-//     res.status(200).json({
-//       status: "success",
-//       data: order,
-//     });
-//   };
+  //     const order = await this.orderDao.update(id, { ...validBody });
+  //     res.status(200).json({
+  //       status: "success",
+  //       data: order,
+  //     });
+  //   };
 
   /**
    @desc Create order
@@ -110,11 +111,11 @@ export class OrderController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-      const id = parseInt(req.params.id, 10); // Convert string param to number
+    const id = parseInt(req.params.id, 10); // Convert string param to number
 
-    if(!id) return res.status(400).json("Data not found");
+    if (!id) return res.status(400).json("Data not found");
     const order = await this.orderDao.findById(id);
-      res.status(200).json({
+    res.status(200).json({
       status: "success",
       data: order,
     });
@@ -131,8 +132,25 @@ export class OrderController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
+    const statusParam = req.query.status as string | undefined;
+    let status: statusType | undefined;
+     // If statusParam is undefined or 'All', treat as no status filter
+    if (!statusParam || statusParam === 'All') {
+      status = undefined; // no filtering on status
+    } else {
+      // Validate if statusParam is a valid enum value
+      if (!Object.values(statusType).includes(statusParam as statusType)) {
+        return res.status(400).json({ error: "Invalid status parameter" });
+      }
+      status = statusParam as statusType;
+    }
+
+  
+
+    console.log("asdf", status);
     const userId = req.user.id;
-    const order = await this.orderDao.getAll(userId); // raw order items with product relation
+    const order = await this.orderDao.getAll(userId, status); // raw order items with product relation
+    if (!order) return res.status(200).json("Data not found");
     res.status(200).json({
       status: "success",
       data: order,
