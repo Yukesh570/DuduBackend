@@ -138,6 +138,26 @@ export class ProductController {
     }
   };
 
+    /**
+   @desc Create product
+   @route get /api/product/getByname
+   @access private
+   **/
+
+  getByName = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    const name = req.query.name as string | undefined;
+    const product = await this.productDao.getByName(name);
+    res.status(200).json({
+      status: "success",
+      data: product,
+    });
+  };
+
+
   /**
    @desc Create product
    @route get /api/product/getByCategory

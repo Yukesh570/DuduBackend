@@ -40,6 +40,10 @@ export function productRoute(): Router {
     "/getByCategory/:category",
     catchAsync(controller.getByCategory)
   )
+  router.get(
+    "/getByName",
+    catchAsync(controller.getByName)
+  )
 
   router.delete("/delete/:id", 
     // protect(),

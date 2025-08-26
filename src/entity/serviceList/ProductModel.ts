@@ -54,3 +54,4 @@ export class Product {
   @CreateDateColumn({ select: true, type: "timestamptz" })
   createdAt?: Moment;
 }
+

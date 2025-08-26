@@ -1,4 +1,4 @@
-import { DeepPartial, Repository, UpdateResult } from "typeorm";
+import { DeepPartial, ILike, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
 import { Service } from "entity/service/service";
@@ -25,6 +25,12 @@ export class ServiceDao {
     order: {
       order: 'ASC', 
     },
+  });
+}
+getByName(name:string): Promise<Service | null> {
+  console.log("asdfasdfasdfasdfsadfa",name)
+  return this.repository.findOne({
+  where: { name: ILike(name) } // TypeORM ILike for Postgres case-insensitive 
   });
 }
 

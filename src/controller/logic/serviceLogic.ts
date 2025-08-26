@@ -2,7 +2,10 @@ import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
 import { validateBodyInput } from "controller/helper/validate";
 import { ServiceDao } from "dao/serviceDao";
-import { ServiceCreateBody, ServiceEditBody } from "controller/dataClass/serviceDataclass";
+import {
+  ServiceCreateBody,
+  ServiceEditBody,
+} from "controller/dataClass/serviceDataclass";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()
@@ -28,7 +31,7 @@ export class ServiceController {
     const service = await this.serviceDao.create({
       ...validBody,
     });
- 
+
     res.status(200).json({
       status: "success",
       data: service,
@@ -89,10 +92,28 @@ export class ServiceController {
     next: NextFunction
   ): Promise<any> => {
     const query = req.query;
-
   };
 
-    /**
+  /**
+   @desc Create service
+   @route get /api/service/getByname
+   @access private
+   **/
+
+  getByName = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    const name = req.query.name as string | undefined;
+    const service = await this.serviceDao.getByName(name);
+    res.status(200).json({
+      status: "success",
+      data: service,
+    });
+  };
+
+  /**
    @desc Create service
    @route get /api/service/getByPanel
    @access private
@@ -103,11 +124,10 @@ export class ServiceController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    const service=await this.serviceDao.getAll();
- res.status(200).json({
+    const service = await this.serviceDao.getAll();
+    res.status(200).json({
       status: "success",
       data: service,
     });
   };
-
 }

@@ -29,6 +29,11 @@ export function serviceRoute(): Router {
     "/getAll",
     catchAsync(controller.getAll)
   )
+  router.get(
+    "/getByName",
+    catchAsync(controller.getByName)
+  )
+
 
   router.delete("/delete/:id", 
     // protect(),
