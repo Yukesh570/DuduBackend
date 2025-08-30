@@ -44,6 +44,10 @@ export function productRoute(): Router {
     "/getByName",
     catchAsync(controller.getByName)
   )
+  router.get(
+    "/getMultiple",
+    catchAsync(controller.getMultiple)
+  )
 
   router.delete("/delete/:id", 
     // protect(),

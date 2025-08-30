@@ -131,7 +131,7 @@ export class CartController {
 ): Promise<any> => {
   const userId = req.user.id;
   const cart = await this.cartDao.getAll(userId); // raw cart items with product relation
-
+  // console.log("cart", cart);
   // Transform raw cart data into grouped structure by product category ("shop")
   const grouped = cart.reduce((acc: any, cartItem: any) => {
     const product = cartItem.__product__;
@@ -146,7 +146,8 @@ export class CartController {
 
     acc[category].items.push({
       id: String(cartItem.id),
-      img: product.image,                      // or build full image URL here
+      img: product.image, 
+      productId: product.id,                     // or build full image URL here
       name: product.name,
       extra: product.description,
       price: product.price,

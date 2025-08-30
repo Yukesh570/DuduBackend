@@ -4,6 +4,6 @@ export enum statusType {
   SHIPPED = "Shipped",
   DELIVERED = "Delivered",
   CANCELLED = "Cancelled",
-  RETURNED = "Returned"
+  PENDING = "Pending",
 
 }

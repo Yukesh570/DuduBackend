@@ -138,6 +138,38 @@ export class ProductController {
     }
   };
 
+
+  /**
+   @desc getMultiple product
+   @route get /api/product/getMultiple
+   @access private
+   **/
+
+  getMultiple = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    try {
+      const idsParam = req.query.ids as string;
+      if (!idsParam) {
+      return res.status(400).json({ status: "fail", message: "ids query param is required" });
+    }
+    const ids = idsParam.split(',').map(idStr => Number(idStr)).filter(id => !isNaN(id));
+    if (ids.length === 0) {
+      return res.status(400).json({ status: "fail", message: "valid ids are required" });
+    }
+
+      const products = await this.productDao.getMultiple(ids);
+      res.status(200).json({
+        status:"success",
+        data:products
+      })
+    } catch (error) {
+      next(error);
+    }
+  };
+
     /**
    @desc Create product
    @route get /api/product/getByname

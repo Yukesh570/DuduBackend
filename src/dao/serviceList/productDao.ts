@@ -1,4 +1,4 @@
-import { DeepPartial, ILike, Repository, UpdateResult } from "typeorm";
+import { DeepPartial, ILike, In, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "data-source";
 import { Product } from "entity/serviceList/ProductModel";
@@ -37,7 +37,12 @@ export class ProductDao {
     where: { name: ILike(name) } // TypeORM ILike for Postgres case-insensitive 
     });
   }
-  getOne(id:number): Promise<Product|null> {
+  getMultiple(ids:number[]): Promise<Product[]|null> {
+    return this.repository.find({
+      where: { id:In(ids), },
+    });
+  }
+    getOne(id:number): Promise<Product|null> {
     return this.repository.findOne({
       where: { id, },
       relations: ["service"], // optional, include Service data
