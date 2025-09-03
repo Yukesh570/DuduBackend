@@ -49,6 +49,7 @@ export class LoginLogic {
     const check = await this.loginDao.repository.findOne({
       where: { username: validBody.username, userType: userType.CUSTOMER },
     });
+    console.log("check", check);
     if (check) {
       return res.status(400).json({
         message: "username already exist",
@@ -61,6 +62,54 @@ export class LoginLogic {
 
       password: hashpass,
       userType: userType.CUSTOMER,
+    });
+    delete data.password;
+    return res.status(200).json({
+      status: "success",
+      data: data,
+    });
+  };
+
+  /**
+ @desc Create user
+  @route  api/auth/tenant/register/
+  @access private
+  **/
+  createTenant = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    const validBody = plainToInstance(UserCreateDataClass, req.body);
+    const errors = await validate(validBody);
+    if (errors.length > 0) {
+      return res.status(400).json({
+        errors,
+        message: "data format was wrong",
+      });
+    }
+    const { password } = validBody;
+    if (password.length < 8) {
+      return res.status(400).json({
+        message: "password must be atleast 8 characters",
+      });
+    }
+
+    const check = await this.loginDao.repository.findOne({
+      where: { username: validBody.username, userType: userType.TENANT },
+    });
+    if (check) {
+      return res.status(400).json({
+        message: "username already exist",
+      });
+    }
+    const hashpass = await hashPassword(password);
+
+    const data = await this.loginDao.create({
+      ...validBody,
+
+      password: hashpass,
+      userType: userType.TENANT,
     });
     delete data.password;
     return res.status(200).json({
