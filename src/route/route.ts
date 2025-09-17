@@ -7,6 +7,7 @@ import { cartRoute } from "./cartRoute";
 import { orderRoute } from "./orderRoute";
 import { initiateKhaltiPayment } from "controller/logic/khaltiPayment/khalti";
 import { tenantRoute } from "./tenantRoute";
+import { paymentRoute } from "./paymentRoute";
 
 const router =express.Router();
 
@@ -17,6 +18,7 @@ router.use("/auth", authRoute());
 router.use("/cart", cartRoute());
 router.use("/order", orderRoute());
 router.use("/tenant", tenantRoute());
+router.use("/payment", paymentRoute());
 
 router.post("/khalti/initiate", async (req, res) => {
   try {

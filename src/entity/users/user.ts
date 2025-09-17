@@ -32,6 +32,9 @@ export class User {
   @Column({ type: "enum",enum:userType })
   userType: userType; 
 
+  @Column({ type: "integer",nullable: true })
+  points?: number;
+
   @Column({ type: "varchar",nullable: true })
   phoneNumber?: string;
 
