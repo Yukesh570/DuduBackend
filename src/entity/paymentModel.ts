@@ -4,6 +4,7 @@ import {
   CreateDateColumn,
   Entity,
   Index,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   Relation,
@@ -20,14 +21,19 @@ export class Payment {
 
   @Column({ type: "decimal", precision: 10, scale: 2 })
   amount: number;
-  @Column({ type: "varchar" })
-  username: string;
+  @Column({ type: "varchar", nullable: true  })
+  userId: string;
+ 
   @Column({ type: 'varchar', length: 255 })
   paymentMethod: string;
 
-  @Column({ type: "text", nullable: true })
-  responseData?: string;
+  @Column({ type: "simple-json", nullable: true })
+  productIds?: number[];
 
+ 
+
+  @Column({ type: "text", nullable: true })
+transactionId?: string;
   @CreateDateColumn({ select: true, type: "timestamptz" })
   createdAt?: Moment;
 }

@@ -74,13 +74,13 @@ export class PaymentController {
   ): Promise<any> => {
     console.log("Handler started");
     console.log("Handler ending");
-    const user = req.params.userId ;
-    const selected = req.params.selectedItems;
-     console.log("useruseruseruseruseruser", user);
+    const userId = req.params.userId ;
+    const selectedItems = req.params.selectedItems;
+     console.log("useruseruseruseruseruser", userId);
 
     console.log(
       "selectedselectedselectedselectedselectedselected",
-      selected
+      selectedItems
     );
     const token = req.query.data as string;
         console.log("token :::::", token);
@@ -91,7 +91,6 @@ export class PaymentController {
         .json({ status: "error", message: "Missing token" });
     }
  
-     let selectedItems: any[] = [];
   
 
 
@@ -105,12 +104,16 @@ export class PaymentController {
         .json({ status: "error", message: "Invalid token payload" });
     }
     console.log("======================================================");
+    const selectedJson = selectedItems.split("=")[1];
+
+    const productIds = JSON.parse(selectedJson).map((item: any) => item.id);
 
     const payment = await this.paymentDao.create({
       amount: decoded.total_amount,
-      username: "some_user", // set from your context or decoded token if available
+      userId: userId.split("=")[1], // set from your context or decoded token if available
+      productIds: productIds,
       paymentMethod: "esewa",
-      responseData: "data",
+      transactionId: decoded.transaction_uuid,
     });
     res.status(200).json({
       status: "success",

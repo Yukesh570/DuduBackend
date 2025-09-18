@@ -23,7 +23,7 @@ export class Order {
   id!: number;
   @Column({ type: "integer", nullable: true  })
   userId: number;
-  @ManyToOne(() => User, (user) => user.orders, { lazy: true })
+  @ManyToOne("User", "orders" , { lazy: true })
   user!: Relation<Promise<User>>;
 
   @Column({ type: "enum",enum:statusType })
@@ -31,7 +31,7 @@ export class Order {
   @Column({ type: "decimal", precision: 10, scale: 2 })
   price: number;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { lazy: true })
+  @OneToMany("OrderItem","order", { lazy: true })
   orderItems!: Promise<OrderItem[]>;
   @CreateDateColumn()
   createdAt?: Moment;

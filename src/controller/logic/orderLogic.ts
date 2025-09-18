@@ -40,14 +40,21 @@ export class OrderController {
           ...validBody,
           userId: req.user.id,
         });
-        const orderItemdata = await this.orderItemDao
-          .withTransaction(manager)
-          .repository.insert(
-            orderItems.map((item) => ({
-              ...item,
+        const orderItemEntities = orderItems.map(
+          ({ productId, price, quantity }) =>
+            this.orderItemDao.withTransaction(manager).repository.create({
+              productId,
+              price,
+              quantity,
               orderId: orderdata.id,
-            }))
-          );
+            })
+        );
+
+        await this.orderItemDao
+          .withTransaction(manager)
+          .repository.save(orderItemEntities);
+
+        return { order: orderdata, items: orderItemEntities };
       });
       res.status(201).json({
         status: "success",
@@ -134,8 +141,8 @@ export class OrderController {
   ): Promise<any> => {
     const statusParam = req.query.status as string | undefined;
     let status: statusType | undefined;
-     // If statusParam is undefined or 'All', treat as no status filter
-    if (!statusParam || statusParam === 'All') {
+    // If statusParam is undefined or 'All', treat as no status filter
+    if (!statusParam || statusParam === "All") {
       status = undefined; // no filtering on status
     } else {
       // Validate if statusParam is a valid enum value
@@ -144,8 +151,6 @@ export class OrderController {
       }
       status = statusParam as statusType;
     }
-
-  
 
     console.log("asdf", status);
     const userId = req.user.id;

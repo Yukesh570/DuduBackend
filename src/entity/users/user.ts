@@ -43,7 +43,7 @@ export class User {
   @OneToMany("Cart", "user", { lazy: true })
   carts!: Relation<Promise<Cart[]>>;
 
-  @OneToMany(() => Cart, (order) => order.user, { lazy: true })
+  @OneToMany("Order","user", { lazy: true })
   orders!: Promise<Cart[]>;
   @CreateDateColumn({ select: true, type: "timestamptz" })
   createdAt?: Moment;

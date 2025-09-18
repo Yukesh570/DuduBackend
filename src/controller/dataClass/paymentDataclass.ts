@@ -20,7 +20,7 @@ export class PaymentCreateBody {
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
-  username!: string;
+  userId!: string;
 
   @IsDefined()
   @IsNotEmpty()
@@ -31,5 +31,5 @@ export class PaymentCreateBody {
   @IsOptional()
   @IsString()
   @Type(() => String)
-  responseData?: string;
+  transactionId?: string;
 }

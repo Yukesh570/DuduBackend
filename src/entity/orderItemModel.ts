@@ -23,11 +23,11 @@ export class OrderItem {
   id!: number;
   @Column({ type: "integer", nullable: true  })
   orderId: number;
-  @ManyToOne(() => Order, (order) => order.orderItems, { lazy: true })
+  @ManyToOne("Order", "orderItems", { lazy: true })
   order!: Relation<Promise<Order>>;
   @Column({ type: "integer", nullable: true  })
   productId: number;
-  @ManyToOne(() => Product, (product) => product.orderItems, { lazy: true })
+  @ManyToOne("Product","orderItems", { lazy: true })
   product!: Relation<Promise<Product>>;
   @Column({ type: "int", default: 1 })
   quantity: number;

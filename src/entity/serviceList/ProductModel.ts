@@ -39,7 +39,9 @@ export class Product {
   @Column({ type: "varchar", nullable: true })
   type?: string;
 
-  @ManyToOne(() => Service, (service) => service.products, { lazy: true })
+  @Column({ type: "integer", nullable: true  })
+  serviceId: number;
+  @ManyToOne("Service","products", { lazy: true })
   service!: Relation<Promise<Service>>;
 
   // @OneToMany(() => Cart, (cart) => cart.product, { lazy: true })
@@ -49,7 +51,7 @@ export class Product {
   carts!: Relation<Promise<Cart[]>>;
   // @OneToMany("OrderItems", "product", { lazy: true })
   // orderItems!: Relation<Promise<OrderItem[]>>;
-  @OneToMany(() => OrderItem, (oItem) => oItem.product, { lazy: true })
+  @OneToMany( "OrderItem", "product", { lazy: true })
   orderItems!: Promise<Cart[]>;
   @CreateDateColumn({ select: true, type: "timestamptz" })
   createdAt?: Moment;
