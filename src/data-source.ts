@@ -12,14 +12,11 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB,
   synchronize: false,
   logging: false,
-  entities:
-    process.env.ENV === "local" ? ["src/entity/**/*.ts"] : ["entity/**/*.js"],
+  entities: [__dirname + '/../**/*.entity.{js,ts}'] ,
 
-  // entities: ["src/entity/**/*.ts"],  // Target compiled JavaScript files
-  migrations:
-    process.env.ENV === "local"
-      ? ["src/migration/*.ts"]
-      : ["migration/**/*.js"],
+migrations: process.env.ENV === "local"
+  ? ["src/migration/**/*.ts"]
+  : ["dist/migration/**/*.js"],
   // : ["dist/src/migration/*.js"],
   ssl: {
     rejectUnauthorized: false,
