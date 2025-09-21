@@ -7,7 +7,7 @@ import { router } from "./route/route";
 import path from "path";
 import 'tsconfig-paths/register';
 
-const port =3000;
+const port = process.env.PORT || 3000;
 
 const app=express()
 
