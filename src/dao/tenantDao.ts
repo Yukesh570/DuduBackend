@@ -1,7 +1,7 @@
 import { DeepPartial, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
-import { Tenant } from "entity/tenantModel";
+import { Tenant } from "../entity/tenantModel";
 
 @singleton()
 export class TenantDao {

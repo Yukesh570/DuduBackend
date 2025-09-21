@@ -2,9 +2,9 @@ import { DeepPartial, Repository, Transaction, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
 import { Cart } from "entity/cartModel";
-import { Order } from "entity/orderModel";
-import { TransactionDaoHelper } from "helpers/dao/transactionDaoHelper";
-import { statusType } from "entity/enum/status";
+import { Order } from "../entity/orderModel";
+import { TransactionDaoHelper } from "../helpers/dao/transactionDaoHelper";
+import { statusType } from "../entity/enum/status";
 
  
 @singleton()

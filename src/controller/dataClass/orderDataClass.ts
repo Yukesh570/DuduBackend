@@ -11,7 +11,7 @@ import {
   IsDate,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { statusType } from "entity/enum/status";
+import { statusType } from "../../entity/enum/status";
 
 export class OrderItemCreteBody {
   @IsDefined()

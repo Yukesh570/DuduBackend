@@ -2,7 +2,7 @@ import { verifyToken } from "../auth/login";
 import { AppDataSource } from "../data-source";
 import { Request, Response, NextFunction } from "express";
 import { loginJwt } from "../utils/jwt/interface";
-import { User } from "entity/users/user";
+import { User } from "../entity/users/user";
 
 export async function getuser(userId: number) {
   return await AppDataSource.getRepository(User).findOne({

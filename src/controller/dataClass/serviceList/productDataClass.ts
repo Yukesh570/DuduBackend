@@ -8,7 +8,7 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { categoryType } from "entity/enum/category";
+import { categoryType } from "../../../entity/enum/category";
 
 export class ProductCreateBody {
   @IsDefined()

@@ -9,13 +9,13 @@ import {
   generateToken,
   verifyToken,
 } from "../../../auth/login";
-import { LoginDao } from "dao/auth/loginDao";
+import { LoginDao } from "../../../dao/auth/loginDao";
 import {
   UserCreateDataClass,
   UserDataClass,
-} from "controller/dataClass/auth/loginDataclass";
+} from "../../../controller/dataClass/auth/loginDataclass";
 import { loginJwt } from "utils/jwt/interface";
-import { userType } from "entity/enum/userType";
+import { userType } from "../../../entity/enum/userType";
 
 @autoInjectable()
 export class LoginLogic {

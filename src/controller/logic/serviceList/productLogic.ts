@@ -3,10 +3,10 @@ import { NextFunction, Request, Response } from "express";
 import {
   ProductCreateBody,
   ProductEditBody,
-} from "controller/dataClass/serviceList/productDataClass";
-import { validateBodyInput } from "controller/helper/validate";
-import { ProductDao } from "dao/serviceList/productDao";
-import { categoryType } from "entity/enum/category";
+} from "../../dataClass/serviceList/productDataClass";
+import { validateBodyInput } from "../../../controller/helper/validate";
+import { ProductDao } from "../../../dao/serviceList/productDao";
+import { categoryType } from "../../../entity/enum/category";
 
 @autoInjectable()
 export class ProductController {

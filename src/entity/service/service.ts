@@ -7,7 +7,7 @@ import {
 } from "typeorm";
 
 import { Moment } from "moment";
-import { Product } from "entity/serviceList/ProductModel";
+import { Product } from "../../entity/serviceList/ProductModel";
 
 @Entity()
 export class Service {

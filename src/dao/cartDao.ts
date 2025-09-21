@@ -1,7 +1,7 @@
 import { DeepPartial, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
-import { Cart } from "entity/cartModel";
+import { Cart } from "../entity/cartModel";
 
 @singleton()
 export class CartDao {

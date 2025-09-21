@@ -1,7 +1,7 @@
 import { DeepPartial, ILike, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
-import { Service } from "entity/service/service";
+import { Service } from "../entity/service/service";
 
 @singleton()
 export class ServiceDao {

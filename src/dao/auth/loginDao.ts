@@ -1,4 +1,4 @@
-import { User } from "entity/users/user";
+import { User } from "../../entity/users/user";
 import { AppDataSource } from "../../data-source";
 import { singleton } from "tsyringe";
 import { DeepPartial, UpdateResult } from "typeorm";

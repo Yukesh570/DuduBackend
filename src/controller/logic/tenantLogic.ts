@@ -1,12 +1,12 @@
 import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
-import { validateBodyInput } from "controller/helper/validate";
-import { TenantDao } from "dao/tenantDao";
+import { validateBodyInput } from "../../controller/helper/validate";
+import { TenantDao } from "../../dao/tenantDao";
 import {
   CartCreateBody,
   CartEditBody,
 } from "controller/dataClass/cartDataclass";
-import { TenantCreateBody, TenantEditBody } from "controller/dataClass/tenantDataclass";
+import { TenantCreateBody, TenantEditBody } from "../../controller/dataClass/tenantDataclass";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()

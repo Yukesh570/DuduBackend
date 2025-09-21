@@ -1,11 +1,11 @@
 import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
-import { validateBodyInput } from "controller/helper/validate";
-import { CartDao } from "dao/cartDao";
+import { validateBodyInput } from "../../controller/helper/validate";
+import { CartDao } from "../../dao/cartDao";
 import {
   CartCreateBody,
   CartEditBody,
-} from "controller/dataClass/cartDataclass";
+} from "../../controller/dataClass/cartDataclass";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()

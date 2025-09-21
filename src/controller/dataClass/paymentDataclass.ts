@@ -8,7 +8,7 @@ import {
   IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
-import { paymentstatusType } from "entity/enum/paymentStatus";
+import { paymentstatusType } from "../../entity/enum/paymentStatus";
 
 export class PaymentCreateBody {
   @IsDefined()

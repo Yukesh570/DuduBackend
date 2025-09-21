@@ -3,8 +3,8 @@ import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
 import { Cart } from "entity/cartModel";
 import { Order } from "entity/orderModel";
-import { OrderItem } from "entity/orderItemModel";
-import { TransactionDaoHelper } from "helpers/dao/transactionDaoHelper";
+import { OrderItem } from "../entity/orderItemModel";
+import { TransactionDaoHelper } from "../helpers/dao/transactionDaoHelper";
 
 @singleton()
 export class OrderItemDao extends TransactionDaoHelper<OrderItemDao> {

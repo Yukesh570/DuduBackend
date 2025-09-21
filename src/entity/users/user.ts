@@ -1,6 +1,6 @@
 //not completed
-import { Cart } from "entity/cartModel";
-import { userType } from "entity/enum/userType";
+import { Cart } from "../../entity/cartModel";
+import { userType } from "../../entity/enum/userType";
 import { Moment } from "moment";
 import {
   Column,

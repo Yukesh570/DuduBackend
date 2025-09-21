@@ -1,6 +1,6 @@
-import { ServiceController } from "controller/logic/serviceLogic";
+import { ServiceController } from "../../controller/logic/serviceLogic";
 import { Router } from "express";
-import { catchAsync } from "route/helper/catchAsync";
+import { catchAsync } from "../../route/helper/catchAsync";
 
 // import { protect } from "../middleware/auth";
 

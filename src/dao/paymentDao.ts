@@ -1,7 +1,7 @@
 import { DeepPartial, ILike, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
 import { AppDataSource } from "../data-source";
-import { Payment } from "entity/paymentModel";
+import { Payment } from "../entity/paymentModel";
 
 @singleton()
 export class PaymentDao {

@@ -1,8 +1,8 @@
 import { DeepPartial, ILike, In, Repository, UpdateResult } from "typeorm";
 import { singleton } from "tsyringe";
-import { AppDataSource } from "data-source";
-import { Product } from "entity/serviceList/ProductModel";
-import { categoryType } from "entity/enum/category";
+import { AppDataSource } from "../../data-source";
+import { Product } from "../../entity/serviceList/ProductModel";
+import { categoryType } from "../../entity/enum/category";
 
 @singleton()
 export class ProductDao {

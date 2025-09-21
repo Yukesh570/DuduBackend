@@ -1,11 +1,11 @@
 import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
-import { validateBodyInput } from "controller/helper/validate";
-import { ServiceDao } from "dao/serviceDao";
+import { validateBodyInput } from "../../controller/helper/validate";
+import { ServiceDao } from "../../dao/serviceDao";
 import {
   ServiceCreateBody,
   ServiceEditBody,
-} from "controller/dataClass/serviceDataclass";
+} from "../../controller/dataClass/serviceDataclass";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()

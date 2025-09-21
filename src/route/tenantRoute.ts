@@ -1,8 +1,8 @@
 import { CartController } from "controller/logic/cartLogic";
-import { TenantController } from "controller/logic/tenantLogic";
+import { TenantController } from "../controller/logic/tenantLogic";
 import { Router } from "express";
-import { protect } from "middleware/auth";
-import { catchAsync } from "route/helper/catchAsync";
+import { protect } from "../middleware/auth";
+import { catchAsync } from "../route/helper/catchAsync";
 
 // import { protect } from "../middleware/auth";
 

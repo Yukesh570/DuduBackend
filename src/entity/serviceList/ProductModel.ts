@@ -9,9 +9,9 @@ import {
 } from "typeorm";
 
 import { Moment } from "moment";
-import { Service } from "entity/service/service";
-import { Cart } from "entity/cartModel";
-import { categoryType } from "entity/enum/category";
+import { Service } from "../../entity/service/service";
+import { Cart } from "../../entity/cartModel";
+import { categoryType } from "../../entity/enum/category";
 import { OrderItem } from "entity/orderItemModel";
 
 @Entity()

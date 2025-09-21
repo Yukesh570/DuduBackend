@@ -1,18 +1,14 @@
 import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
-import { validateBodyInput } from "controller/helper/validate";
-import { PaymentCreateBody } from "controller/dataClass/paymentDataclass";
-import {
-  TenantCreateBody,
-  TenantEditBody,
-} from "controller/dataClass/tenantDataclass";
-import { PaymentDao } from "dao/paymentDao";
-// import { validateBodyInput } from "controller/helper/validate";
-import jwt from "jsonwebtoken";
-import { paymentstatusType } from "entity/enum/paymentStatus";
-import { OrderDao } from "dao/orderDao";
-import { OrderEditBody } from "controller/dataClass/orderDataClass";
-import { statusType } from "entity/enum/status";
+import { validateBodyInput } from "../../controller/helper/validate";
+import { PaymentCreateBody } from "../../controller/dataClass/paymentDataclass";
+
+import { PaymentDao } from "../../dao/paymentDao";
+
+import { paymentstatusType } from "../../entity/enum/paymentStatus";
+import { OrderDao } from "../../dao/orderDao";
+import { OrderEditBody } from "../../controller/dataClass/orderDataClass";
+import { statusType } from "../../entity/enum/status";
 
 @autoInjectable()
 export class PaymentController {

@@ -1,9 +1,9 @@
 import { CartController } from "controller/logic/cartLogic";
 import { OrderController } from "controller/logic/orderLogic";
-import { PaymentController } from "controller/logic/paymentLogic";
+import { PaymentController } from "../controller/logic/paymentLogic";
 import { Router } from "express";
-import { protect } from "middleware/auth";
-import { catchAsync } from "route/helper/catchAsync";
+import { protect } from "../middleware/auth";
+import { catchAsync } from "../route/helper/catchAsync";
 
 // import { protect } from "../middleware/auth";
 

@@ -5,7 +5,7 @@ import { serviceRoute } from "./service/serviceRoute";
 import { authRoute } from "./auth/auth";
 import { cartRoute } from "./cartRoute";
 import { orderRoute } from "./orderRoute";
-import { initiateKhaltiPayment } from "controller/logic/khaltiPayment/khalti";
+import { initiateKhaltiPayment } from "../controller/logic/khaltiPayment/khalti";
 import { tenantRoute } from "./tenantRoute";
 import { paymentRoute } from "./paymentRoute";
 
