@@ -12,17 +12,8 @@ export const AppDataSource = new DataSource({
     database: process.env.POSTGRES_DB,
     synchronize: false, 
     logging: false,
-      entities:
-    process.env.ENV === "local"
-      ? ["src/entity/**/*.ts"]
-      : ["dist/entity/**/*.js"],
-      // : ["dist/src/entity/**/*.js"],
-
-  // entities: ["src/entity/**/*.ts"],  // Target compiled JavaScript files
-  migrations:
-    process.env.ENV === "local"
-      ? ["src/migration/*.ts"]
-      : ["dist/migration/*.js"],
+   entities: ["src/entity/**/*.ts"],
+migrations: ["src/migration/*.ts"],
       // : ["dist/src/migration/*.js"],
       ssl: {
     rejectUnauthorized: false,
