@@ -5,6 +5,7 @@ import cors from "cors"
 import { initializeDB } from "./db";
 import { router } from "./route/route";
 import path from "path";
+import 'tsconfig-paths/register';
 
 const port =3000;
 

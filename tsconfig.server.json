@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+    "controller/*": ["controller/*"],
+    "entity/*": ["entity/*"],
+    "dao/*": ["dao/*"],
+    "route/*": ["route/*"],
+    "middleware/*": ["middleware/*"],
+    "utils/*": ["utils/*"],
+    "helpers/*": ["helpers/*"],
+    "data-source": ["data-source"]
+  }
+  },
+  "include": ["./src/**/*", "./@types/**/*.ts"]
+}

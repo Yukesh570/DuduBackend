@@ -15,14 +15,14 @@ export const AppDataSource = new DataSource({
       entities:
     process.env.ENV === "local"
       ? ["src/entity/**/*.ts"]
-      : ["src/entity/**/*.js"],
+      : ["dist/entity/**/*.js"],
       // : ["dist/src/entity/**/*.js"],
 
   // entities: ["src/entity/**/*.ts"],  // Target compiled JavaScript files
   migrations:
     process.env.ENV === "local"
       ? ["src/migration/*.ts"]
-      : ["src/migration/*.js"],
+      : ["dist/migration/*.js"],
       // : ["dist/src/migration/*.js"],
 });
 

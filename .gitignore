@@ -6,6 +6,7 @@ npm-debug.log*
 # Logs
 logs/
 *.log
+dist
 
 # Optional npm cache directory
 .npm/
