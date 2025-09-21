@@ -3,13 +3,7 @@
   "builds": [
     { "src": "src/index.ts", "use": "@vercel/node" }
   ],
-  "env": {
-    "POSTGRES_HOST": "localhost",
-    "POSTGRES_USER": "yukesh",
-    "POSTGRES_PASSWORD": "android18)",
-    "POSTGRES_DB": "dudu",
-    "POSTGRES_PORT": "5432",
-    "JWT_SECRET_KEY": "9c1e663f2bd349a0e8d8e407ab397209e5f7bd8cd2b88cc761df9959c4e6635f",
-    "ENV": "production"
-  }
+  "routes": [
+    { "src": "/(.*)", "dest": "/src/index.ts" }
+  ]
 }
