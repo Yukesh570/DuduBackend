@@ -21,14 +21,20 @@ export function paymentRoute(): Router {
     catchAsync(controller.create)
   );
 
-//   router.put(
-//     "/edit/:id",
-//     protect(),
+  router.put(
+    "/edit/:id",
+    protect(),
 
-//     catchAsync(controller.edit)
-//   );
+    catchAsync(controller.edit)
+  );
 router.get(
     "/get/:userId/:selectedItems",
+
+    catchAsync(controller.getbypanel)
+  )
+
+  router.get(
+    "/failure/get/:userId/:selectedItems",
 
     catchAsync(controller.getbypanel)
   )

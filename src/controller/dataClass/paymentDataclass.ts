@@ -5,8 +5,10 @@ import {
   IsString,
   IsNumber,
   Min,
+  IsEnum,
 } from "class-validator";
 import { Type } from "class-transformer";
+import { paymentstatusType } from "entity/enum/paymentStatus";
 
 export class PaymentCreateBody {
   @IsDefined()
@@ -15,6 +17,13 @@ export class PaymentCreateBody {
   @Min(0)
   @Type(() => Number)
   amount!: number;
+
+  @IsDefined()
+  @IsString()
+  @IsNotEmpty()
+  @IsEnum(paymentstatusType)
+  @Type(() => String)
+  paymentstatus: paymentstatusType;
 
   @IsDefined()
   @IsNotEmpty()

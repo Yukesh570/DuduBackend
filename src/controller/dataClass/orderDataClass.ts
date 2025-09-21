@@ -62,23 +62,26 @@ export class OrderCreateBody {
 }
 
 export class OrderEditBody {
-  @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  image?: string;
+
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
+  @IsEnum(statusType)
   @Type(() => String)
-  name?: string;
+  status: statusType;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsNumber()
   @Min(0)
   @Type(() => Number)
-  order?: number;
-}
+  price: number;
+
+  @IsOptional()
+  @IsDate()
+  @Type(() => Date)
+  estimatedDeliveryDate: Date;
+
  
+}
+
