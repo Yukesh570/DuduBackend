@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import { router } from 'route/route';
+import { router } from '../route/route';
 
 
 const app = express();
