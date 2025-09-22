@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import * as path from "path";
 import * as dotenv from "dotenv";
 
 dotenv.config({ path: "./.env" });
@@ -15,12 +16,16 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB,
   synchronize: false,
   logging: false,
-  entities: isProd
-    ? ["dist/entity/**/*{.js,.ts}"]
-    : ["src/entity/**/*{.ts,.js}"],
-  migrations: isProd
-    ? ["dist/migration/**/*{.js,.ts}"]
-    : ["src/migration/**/*{.ts,.js}"],
+  entities: [
+    isProd
+      ? path.join(__dirname, "entity/**/*.{js}")   // only .js in dist
+      : path.join(__dirname, "../src/entity/**/*.{ts,js}") // local ts + js
+  ],
+  migrations: [
+    isProd
+      ? path.join(__dirname, "migration/**/*.{js}") 
+      : path.join(__dirname, "../src/migration/**/*.{ts,js}")
+  ],
   ssl: {
     rejectUnauthorized: false,
   },
