@@ -16,11 +16,11 @@ export const AppDataSource = new DataSource({
     entities:
     process.env.ENV === "local"
       ? ["src/entity/**/*.ts"]
-      : ["dist/entity/**/*.js"],
+      : ["src/entity/**/*.ts"],
   migrations:
     process.env.ENV === "local"
       ? ["src/migration/*.ts"]
-      : ["dist/migration/*.js"],
+      : ["src/migration/*.ts"],
       ssl: {
     rejectUnauthorized: false,
   },
