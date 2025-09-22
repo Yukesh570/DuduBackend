@@ -16,7 +16,7 @@ import {
 } from "../../../controller/dataClass/auth/loginDataclass";
 import { loginJwt } from "utils/jwt/interface";
 import { userType } from "../../../entity/enum/userType";
-import { AppDataSource } from "data-source";
+import { AppDataSource } from "../../../data-source";
 import { User } from "../../../entity/users/user";
 
 @autoInjectable()
