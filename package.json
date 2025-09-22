@@ -11,7 +11,8 @@
     "migration:dev:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
     "migration:dev:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/data-source.ts",
     "clean": "rimraf ./dist",
-    "build": "tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
+
+    "build": "tsc",
     "start": "node dist/index.js",
     "vercel-build": "tsc"
   },

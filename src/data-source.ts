@@ -17,15 +17,16 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
   entities: [
-    isProd
-      ? path.join(__dirname, "entity/**/*.{js}")   // only .js in dist
-      : path.join(__dirname, "../src/entity/**/*.{ts,js}") // local ts + js
+    process.env.NODE_ENV === "production"
+      ? "dist/entity/**/*.js"
+      : "src/entity/**/*.ts",
   ],
   migrations: [
-    isProd
-      ? path.join(__dirname, "migration/**/*.{js}") 
-      : path.join(__dirname, "../src/migration/**/*.{ts,js}")
+    process.env.NODE_ENV === "production"
+      ? "dist/migration/**/*.js"
+      : "src/migration/**/*.ts",
   ],
+
   ssl: {
     rejectUnauthorized: false,
   },
