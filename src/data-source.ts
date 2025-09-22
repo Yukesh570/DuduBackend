@@ -2,6 +2,8 @@ import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as path from "path";
 import * as dotenv from "dotenv";
+import { User } from "./entity/users/user";
+import { Product } from "./entity/serviceList/ProductModel";
 
 dotenv.config({ path: "./.env" });
 
@@ -17,9 +19,7 @@ export const AppDataSource = new DataSource({
   synchronize: false,
   logging: false,
   entities: [
-    isProd
-      ? path.join(__dirname, "entity/**/*.{js}")   // only .js in dist
-      : path.join(__dirname, "../src/entity/**/*.{ts,js}") // local ts + js
+    User,Product
   ],
   migrations: [
     isProd
