@@ -13,7 +13,7 @@
     "clean": "rimraf ./dist",
     "build": "tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
     "server": "node ./dist/index.js",
-    "vercel-build": "tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json"
+    "vercel-build": "tsc"
   },
   "pre-commit": [
     "build"
