@@ -4,6 +4,6 @@
   "outputDirectory": "dist",
   "framework": null,
   "routes": [
-    { "src": "/(.*)", "dest": "/dist/index.js" }
+    { "src": "/(.*)", "dest": "/src/index.js" }
   ]
 }
