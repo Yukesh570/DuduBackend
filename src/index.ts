@@ -1,5 +1,6 @@
 
 import express from "express"
+import "reflect-metadata";
 
 import cors from "cors"
 import { initializeDB } from "./db";
