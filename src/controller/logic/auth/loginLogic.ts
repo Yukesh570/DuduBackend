@@ -16,6 +16,8 @@ import {
 } from "../../../controller/dataClass/auth/loginDataclass";
 import { loginJwt } from "utils/jwt/interface";
 import { userType } from "../../../entity/enum/userType";
+import { AppDataSource } from "data-source";
+import { User } from "../../../entity/users/user";
 
 @autoInjectable()
 export class LoginLogic {
@@ -39,6 +41,7 @@ export class LoginLogic {
         message: "data format was wrong",
       });
     }
+    console.log("Checking User entity:", AppDataSource.getRepository(User).metadata.name);
     const { password } = validBody;
     if (password.length < 8) {
       return res.status(400).json({

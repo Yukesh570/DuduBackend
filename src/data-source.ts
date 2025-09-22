@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
+import { User } from "./entity/users/user";
 dotenv.config({path:"./.env"});
 
 export const AppDataSource = new DataSource({
@@ -12,8 +13,17 @@ export const AppDataSource = new DataSource({
     database: process.env.POSTGRES_DB,
     synchronize: false, 
     logging: false,
-   entities: ["src/entity/**/*.ts"],
-migrations: ["src/migration/*.ts"],
+      entities:[User],
+    // process.env.ENV === "local"
+    //   ? ["src/entity/**/*.ts"]
+    //   : ["dist/entity/**/*.js"],
+      // : ["dist/src/entity/**/*.js"],
+
+  // entities: ["src/entity/**/*.ts"],  // Target compiled JavaScript files
+  migrations:
+    process.env.ENV === "local"
+      ? ["src/migration/*.ts"]
+      : ["dist/migration/*.js"],
       // : ["dist/src/migration/*.js"],
       ssl: {
     rejectUnauthorized: false,
