@@ -14,18 +14,28 @@ const app=express()
 
 app.use(express.json())
 app.use(express.static("public/images"));
+app.use('/serviceList', express.static(path.join(__dirname, 'public/images/serviceList')));
+
 app.use('/videos', express.static(path.join(__dirname, '../public/videos')));
 
 app.use(cors({
     origin: "*"
 }))
 app.use("/api",router)
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
     res.send("working");
-})
+});
 
 
-app.listen(port,async()=>{
-    await initializeDB(),
-    console.log(`server is running on port ${port}`)
-})
+// app.listen(port,async()=>{
+//     await initializeDB(),
+//     console.log(`server is running on port ${port}`)
+// })
+
+
+(async () => {
+  await initializeDB(); // ✅ DB ready before using LoginDao
+  app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
+})();
