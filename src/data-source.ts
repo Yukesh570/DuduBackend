@@ -1,25 +1,32 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 import * as dotenv from "dotenv";
-import { User } from "./entity/users/user";
-import path from "path";
-dotenv.config({ path: "./.env" });
-console.log("User entity loaded:", User); // 👈 add this
-export const AppDataSource = new DataSource({
-  type: "postgres",
-  host: process.env.POSTGRES_HOST,
-  port: parseInt(process.env.POSTGRES_PORT),
-  username: process.env.POSTGRES_USER,
-  password: process.env.POSTGRES_PASSWORD,
-  database: process.env.POSTGRES_DB,
-  synchronize: false,
-  logging: false,
-  entities: [path.join(__dirname, "/entity/**/*.{js,ts}")],
-  migrations: [path.join(__dirname, "/migration/*.{js,ts}")],
+dotenv.config({path:"./.env"});
 
-  ssl: {
-    rejectUnauthorized: true,
-    ca: `-----BEGIN CERTIFICATE-----
+export const AppDataSource = new DataSource({
+    type: "postgres",
+    host: process.env.POSTGRES_HOST,
+    port: parseInt(process.env.POSTGRES_PORT),
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
+    database: process.env.POSTGRES_DB,
+    synchronize: false, 
+    logging: false,
+      entities:
+    process.env.NODE_ENV === "local"
+      ? ["src/entity/**/*.ts"]
+      : ["dist/entity/**/*.js"],
+    
+  // entities: ["src/entity/**/*.ts"],  // Target compiled JavaScript files
+  migrations:
+    process.env.NODE_ENV === "local"
+      ? ["src/migration/*.ts"]
+      : ["dist/migration/*.js"],
+
+    ssl:
+     {
+        rejectUnauthorized: true,
+        ca:`-----BEGIN CERTIFICATE-----
 MIIEQTCCAqmgAwIBAgIUKY3Uhj8dj3wRvBlTJdChujza/c8wDQYJKoZIhvcNAQEM
 BQAwOjE4MDYGA1UEAwwvNmM2YmQ4NTYtNWIzOS00MzA5LTk0MjQtNzEwMDk3NWVj
 NjQzIFByb2plY3QgQ0EwHhcNMjQxMjI0MTExNjA2WhcNMzQxMjIyMTExNjA2WjA6
@@ -43,6 +50,6 @@ l2U/iWnXVxn+PH8u/ikakZGO9gFzQaVSTRlCsUdmD1k9pRFiNn7rvUyIkR6KfTi9
 a+GKqQBNMt64/WdzIabmNVX/rpVMP67SoTWjdk3YZ5XhM6nUmrBbMRGUSGWST3YH
 4I2rI7/5EYXreFc90FR3nJSiJw9Kwlv9+MXAX/I5MrzDmVdzLW92npqhwSDa4W3z
 KUpHxRGUKffH1Y5FK8dOjmDBG0Mro3+hR1GOM/mHaJmQF3wQJg==
------END CERTIFICATE-----`,
-  },
+-----END CERTIFICATE-----`},
 });
+

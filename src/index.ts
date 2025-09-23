@@ -13,8 +13,8 @@ const port = process.env.PORT || 3000;
 const app=express()
 
 app.use(express.json())
-app.use(express.static("public/images"));
-app.use('/serviceList', express.static(path.join(__dirname, 'public/images/serviceList')));
+app.use('/serviceList', express.static(path.join(__dirname, '../public/serviceList')));
+app.use('/service', express.static(path.join(__dirname, '../public/service')));
 
 app.use('/videos', express.static(path.join(__dirname, '../public/videos')));
 
