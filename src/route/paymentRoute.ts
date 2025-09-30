@@ -32,18 +32,25 @@ router.get(
 
     catchAsync(controller.getbypanel)
   )
+ 
 
   router.get(
     "/failure/get/:userId/:selectedItems",
 
     catchAsync(controller.getbypanel)
   )
-//   router.get(
-//     "/getAll",
-//     protect(),
+   router.get(
+    "/getbykhalt",
 
-//     catchAsync(controller.getAll)
-//   )
+    catchAsync(controller.khaltiCallBack)
+  )
+ 
+  router.get(
+    "/getAll",
+    // protect(),
+
+    catchAsync(controller.getAll)
+  )
 
 //   router.delete("/delete/:id", 
 //     protect(),

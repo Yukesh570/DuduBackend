@@ -11,17 +11,7 @@ import { Type } from "class-transformer";
 import { categoryType } from "../../../entity/enum/category";
 
 export class ProductCreateBody {
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  image: string;
 
-  @IsDefined()
-  @IsNotEmpty()
-  @IsString()
-  @Type(() => String)
-  video: string;
 
   @IsDefined()
   @IsNotEmpty()
@@ -36,7 +26,7 @@ export class ProductCreateBody {
   @Type(() => String)
   category: categoryType;
 
-  @IsDefined()
+  @IsOptional()
   @IsNotEmpty()
   @IsString()
   @Type(() => String)
@@ -48,17 +38,9 @@ export class ProductCreateBody {
   @Type(() => String)
   description: string;
 
-  @IsDefined()
-  @IsNotEmpty()
-  @IsNumber()
-  @Type(() => Number)
-  serviceId: number; // foreign key
 
-  @IsDefined()
-  @IsNumber()
-  @Min(0)
-  @Type(() => Number)
-  order: number;
+
+ 
 
   @IsDefined()
   @IsNumber()
@@ -98,7 +80,7 @@ export class ProductEditBody {
   @Type(() => String)
   name?: string;
 
-  @IsDefined()
+  @IsOptional()
   @IsString()
   @IsNotEmpty()
   @IsEnum(categoryType)

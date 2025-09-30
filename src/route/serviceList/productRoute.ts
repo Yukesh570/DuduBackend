@@ -1,6 +1,9 @@
 import { ProductController } from "../../controller/logic/serviceList/productLogic";
 import { Router } from "express";
 import { catchAsync } from "../../route/helper/catchAsync";
+import { protect } from "middleware/auth";
+import { upload, uploadEdit } from "controller/logic/serviceList/storage";
+import { loadProduct } from "middleware/productMiddleware";
 
 // import { protect } from "../middleware/auth";
 
@@ -12,16 +15,23 @@ export function productRoute(): Router {
   const router = Router();
 
   router.post(
-    "/create",
-    // protect(),
-
-    catchAsync(controller.create)
-  );
+  "/create",
+  protect(),
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'video', maxCount: 1 }
+  ]),
+  catchAsync(controller.create)
+);
 
   router.put(
     "/edit/:id",
-    // protect(),
-
+    protect(),
+    loadProduct,
+ uploadEdit.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'video', maxCount: 1 }
+  ]),
     catchAsync(controller.edit)
   );
 
@@ -40,9 +50,15 @@ export function productRoute(): Router {
     "/getByCategory/:category",
     catchAsync(controller.getByCategory)
   )
+  
+
   router.get(
     "/getByName",
     catchAsync(controller.getByName)
+  )
+  router.get(
+    "/getAll",
+    catchAsync(controller.getAll)
   )
   router.get(
     "/getMultiple",

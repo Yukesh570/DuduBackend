@@ -164,6 +164,107 @@ export class PaymentController {
     }
   };
 
+   /**
+   @desc Create payment
+   @route get /api/payment/get/khalti
+   @access private
+   **/
+
+  khaltiCallBack = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    console.log("Handler started");
+    console.log("Handler ending");
+    const userId = req.params.userId;
+    const selectedItems = req.params.selectedItems;
+    const status = req.params.status;
+    console.log("useruseruseruseruseruser", userId);
+
+    console.log(
+      "selectedselectedselectedselectedselectedselected",
+      selectedItems
+    );
+    const token = req.query.data as string;
+    console.log("token :::::", token);
+    const selectedJson = selectedItems.split("=")[1];
+
+    const productIds = JSON.parse(selectedJson).map((item: any) => item.id);
+
+    if (status === "failure") {
+      const payment = await this.paymentDao.create({
+        amount: 0,
+        paymentstatus: paymentstatusType.FAILED,
+        userId: userId, // set from your context or decoded token if available
+        productIds: productIds,
+        paymentMethod: "khalti",
+        transactionId: "none",
+      });
+
+      return res.status(200).json({
+        status: "success",
+        //   datas: query,
+      });
+    }
+
+    try {
+      const decoded = JSON.parse(Buffer.from(token, "base64").toString("utf8"));
+      const order = await this.orderDao.repository.findOne({
+        where: { userId: Number(userId.split("=")[1]) },
+        order: { createdAt: "DESC" },
+      });
+      console.log("Decoded JWT:", decoded);
+      if (!decoded || typeof decoded !== "object") {
+        return res
+          .status(400)
+          .json({ status: "error", message: "Invalid token payload" });
+      }
+      console.log("======================================================");
+
+      const payment = await this.paymentDao.create({
+        amount: decoded.total_amount,
+        paymentstatus: paymentstatusType.SUCCESS,
+        userId: userId.split("=")[1], // set from your context or decoded token if available
+        productIds: productIds,
+        paymentMethod: "esewa",
+        transactionId: decoded.transaction_uuid,
+      });
+      await this.orderDao.update(order.id, {
+        status: statusType.ORDERPLACED,
+      });
+      res.status(200).json({
+        status: "success",
+        //   datas: query,
+      });
+    } catch (error) {
+      console.log("Error parsing JWT:", error);
+      return res
+        .status(400)
+        .json({ status: "error", message: "Invalid token" });
+    }
+  };
+  /**
+   @desc Create payment
+   @route get /api/payment/getbykhalt
+   @access private
+   **/
+
+  getbykhalt = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    console.log("Handler started");
+    console.log("Handler ending");
+   
+      res.status(200).json({
+        status: "success",
+        //   datas: query,
+      });
+
+  };
+
   /**
    @desc Create payment
    @route get /api/payment/getAll
@@ -175,7 +276,7 @@ export class PaymentController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
-    const userId = req.user.id;
+    // const userId = req.user.id;
     const tenant = await this.paymentDao.getAll(); // raw payment items with product relation
 
     res.status(200).json({

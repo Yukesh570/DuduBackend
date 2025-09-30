@@ -48,6 +48,11 @@ export class ProductDao {
       relations: ["service"], // optional, include Service data
     });
   }
+   getAll(): Promise<Product[]|null> {
+    return this.repository.find({
+
+    });
+  }
 
   delete(id: number) {
     return this.repository.delete({ id });
