@@ -66,7 +66,7 @@ export function productRoute(): Router {
   )
 
   router.delete("/delete/:id", 
-    // protect(),
+    protect(),
      catchAsync(controller.delete));
 
   return router;
