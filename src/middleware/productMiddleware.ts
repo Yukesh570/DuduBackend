@@ -1,5 +1,5 @@
 // middleware/loadProduct.ts
-import { ProductDao } from "dao/serviceList/productDao";
+import { ProductDao } from "../dao/serviceList/productDao";
 import { Request, Response, NextFunction } from "express";
 const productDaoInstance = new ProductDao();
 

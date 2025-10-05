@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 import { categoryType } from "../../../entity/enum/category";
-import { ProductDao } from "dao/serviceList/productDao";
+import { ProductDao } from "../../../dao/serviceList/productDao";
 
 const BASE_UPLOAD_PATH = path.resolve(__dirname, "../../../../public");
 const productDaoInstance = new ProductDao();

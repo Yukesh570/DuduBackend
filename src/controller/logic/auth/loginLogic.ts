@@ -225,4 +225,25 @@ export class LoginLogic {
       token: token,
     });
   };
+
+   /**
+     @desc get user
+     @route get /api/auth/getOne
+     @access private
+     **/
+  
+    getOne = async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ): Promise<any> => {
+      const id= Number(req.params.id)
+      const user = await this.loginDao.repository.findOne({
+        where: { id },
+      });
+      res.status(200).json({
+        status: "success",
+        data: user,
+      });
+    };
 }

@@ -7,7 +7,7 @@ import {
 import { validateBodyInput } from "../../../controller/helper/validate";
 import { ProductDao } from "../../../dao/serviceList/productDao";
 import { categoryType } from "../../../entity/enum/category";
-import { ServiceDao } from "dao/serviceDao";
+import { ServiceDao } from "../../../dao/serviceDao";
 import path from "path";
 import fs from "fs";
 import { Product } from "entity/serviceList/ProductModel";
@@ -114,7 +114,7 @@ order: Math.floor(oderdata ? oderdata.order + 1 : 1),
   if (videoFile) {
     // Delete old video file if exists
     if (existingProduct.video) {
-      const oldVideoPath = path.join(__dirname, "public", existingProduct.video);
+      const oldVideoPath = path.join(__dirname, "../../../../public", existingProduct.video);
       fs.unlink(oldVideoPath, (err: any) => {
         if (err) console.error("Error deleting old video file:", err);
       });
