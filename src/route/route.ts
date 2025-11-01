@@ -7,7 +7,7 @@ import { orderRoute } from "./orderRoute";
 import { initiateKhaltiPayment } from "../controller/logic/khaltiPayment/khalti";
 import { tenantRoute } from "./tenantRoute";
 import { paymentRoute } from "./paymentRoute";
-
+import { tenantImageRoute } from "./tenantImageRoute";
 const router = express.Router();
 
 router.use("/service", serviceRoute());
@@ -18,6 +18,7 @@ router.use("/cart", cartRoute());
 router.use("/order", orderRoute());
 router.use("/tenant", tenantRoute());
 router.use("/payment", paymentRoute());
+router.use("/tenantImage", tenantImageRoute());
 
 router.post("/khalti/initiate/:userId/:selectedItems/:totalPrice", async (req, res) => {
   try {
@@ -25,11 +26,8 @@ router.post("/khalti/initiate/:userId/:selectedItems/:totalPrice", async (req, r
     const userId = req.params.userId;
     const selectedItemsString = req.params.selectedItems;
     const totalPrice = req.params.totalPrice;
-    console.log("Selected Items String:", selectedItemsString);
-    console.log("User ID:", userId);
+
     let selectedItems: { id: string; quantity: number; price: number }[];
-    console.log("selectedJsonselectedJson", selectedItemsString);
-    console.log("totalPricetotalPricetotalPricetotalPricetotalPrice", totalPrice);
 
     try {
       selectedItems = JSON.parse(selectedItemsString);

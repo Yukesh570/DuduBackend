@@ -8,7 +8,7 @@ import { categoryType } from "../../entity/enum/category";
 export class ProductDao {
   public repository: Repository<Product> = AppDataSource.getRepository(Product);
 
-  create(product: Omit<Product, "id" | "service"|"carts"|"orderItems">): Promise<Product> {
+  create(product: Omit<Product, "id" | "service"|"carts"|"orderItems"|"user">): Promise<Product> {
     return this.repository.save(this.repository.create(product));
   }
 
@@ -37,6 +37,17 @@ export class ProductDao {
     where: { name: ILike(name) } // TypeORM ILike for Postgres case-insensitive 
     });
   }
+
+   getByEachLetter(name: string): Promise<Product[]> {
+  console.log("searching by:", name);
+
+  return this.repository.find({
+    where: { name: ILike(`${name}%`) },
+    order: { name: "ASC" },    
+    select: ["id", "name", "image", "category"]        
+  });
+}
+
   getMultiple(ids:number[]): Promise<Product[]|null> {
     return this.repository.find({
       where: { id:In(ids), },

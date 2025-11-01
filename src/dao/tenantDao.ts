@@ -7,7 +7,7 @@ import { Tenant } from "../entity/tenantModel";
 export class TenantDao {
   public repository = AppDataSource.getRepository(Tenant);
 
-  create(Tenant: Omit<Tenant, "id"  | "user">): Promise<Tenant> {
+  create(Tenant: Omit<Tenant, "id"  | "user"|"tenantImages">): Promise<Tenant> {
     return this.repository.save(this.repository.create(Tenant));
   }
 
@@ -24,8 +24,8 @@ export class TenantDao {
   getAll(userId: number): Promise<Tenant[]> {
     console.log("dao", userId);
     return this.repository.find({
-      where: { userId },
-      relations: ["user"],
+      // where: { userId: userId  },
+      relations: ["user","tenantImages"],
     });
   }
 

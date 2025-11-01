@@ -15,6 +15,7 @@ const app=express()
 app.use(express.json())
 app.use('/serviceList', express.static(path.join(__dirname, '../public/serviceList')));
 app.use('/services', express.static(path.join(__dirname, '../public/services')));
+app.use('/tenants', express.static(path.join(__dirname, '../public/tenants')));
 
 app.use('/videos', express.static(path.join(__dirname, '../public/videos')));
 

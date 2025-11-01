@@ -18,7 +18,11 @@ export class OrderDao extends TransactionDaoHelper<OrderDao> {
   update(id: number, order: DeepPartial<Order>): Promise<UpdateResult> {
     return this.repository.update({ id }, order);
   }
-  
+  updateByMerchant(id: number, order: DeepPartial<Order>,userId:number):Promise<UpdateResult> {
+    return this.repository.update({
+       id 
+      }, order);
+  }
   findById(id: number): Promise<Order | null> {
     if (!id) return Promise.resolve(null);
     return this.repository.findOne({

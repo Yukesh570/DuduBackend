@@ -2,19 +2,23 @@ import { autoInjectable } from "tsyringe";
 import { NextFunction, Request, Response } from "express";
 import { validateBodyInput } from "../../controller/helper/validate";
 import { TenantDao } from "../../dao/tenantDao";
+
 import {
-  CartCreateBody,
-  CartEditBody,
-} from "controller/dataClass/cartDataclass";
-import { TenantCreateBody, TenantEditBody } from "../../controller/dataClass/tenantDataclass";
+  TenantCreateBody,
+  TenantEditBody,
+} from "../../controller/dataClass/tenantDataclass";
+import { TenantImageDao } from "../../dao/tenantImageDao";
 // import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()
 export class TenantController {
-  constructor(private tenantDao: TenantDao) {}
+  constructor(
+    private tenantDao: TenantDao,
+    private tenantImageDao: TenantImageDao
+  ) {}
   /**
-   @desc Create cart
-   @route POST /api/cart/create
+   @desc Create tenant
+   @route POST /api/tenant/create
    @access private
    **/
   create = async (
@@ -30,21 +34,20 @@ export class TenantController {
     if (errors) return res.status(400).json(errors);
     // if (req.user.userType !== "admin")
     //   return res.status(401).json({ message: "Unauthorized" });
-    
 
-    const cart = await this.tenantDao.create({
+    const tenant = await this.tenantDao.create({
       ...validBody,
       userId: req.user.id,
     });
 
     res.status(200).json({
       status: "success",
-      data: cart,
+      data: tenant,
     });
   };
   /**
-   @desc Create cart
-   @route put /api/cart/edit:id
+   @desc Create tenant
+   @route put /api/tenant/edit:id
    @access private
    **/
   edit = async (
@@ -52,23 +55,33 @@ export class TenantController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
+    const user = req.user.userType;
+    console.log("useruseruseruseruseruser", user);
     const id = Number(req.params.id);
     const { validatedData: validBody, errors } = await validateBodyInput(
       req,
       TenantEditBody
     );
     if (errors) return res.status(400).json(errors);
+    const available = await this.tenantDao.findById(id);
+    console.log("available", available);
 
-    const cart = await this.tenantDao.update(id, { ...validBody });
+    if (!available) {
+      return res.status(400).json({
+        status: "error",
+        message: "Tenant not found",
+      });
+    }
+    const tenant = await this.tenantDao.update(id, { ...validBody });
     res.status(200).json({
       status: "success",
-      data: cart,
+      data: tenant,
     });
   };
 
   /**
-   @desc Create cart
-   @route delete /api/cart/delete:id
+   @desc Create tenant
+   @route delete /api/tenant/delete:id
    @access private
    **/
 
@@ -78,46 +91,37 @@ export class TenantController {
     next: NextFunction
   ): Promise<any> => {
     const id = Number(req.params.id);
-    const cart = await this.tenantDao.delete(id);
-    if (!cart.affected) return res.status(400).json("Data not found");
+    const tenImage = await this.tenantImageDao.findByTenant(id);
+    console.log("tenImage", tenImage);
+    if (tenImage) {
+      tenImage.forEach(async (element) => {
+        await this.tenantImageDao.delete(element.id);
+      });
+    }
+    const tenant = await this.tenantDao.delete(id);
+    if (!tenant.affected) return res.status(400).json("Data not found");
     res.status(200).json({
       status: "Success",
     });
   };
 
   /**
-   @desc Create cart
-   @route get /api/cart/getByPanel
-   @access private
-   **/
-
-  getbypanel = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<any> => {
-    const query = req.query;
-  };
-
-  /**
-   @desc Create cart
-   @route get /api/cart/getAll
+   @desc Create tenant
+   @route get /api/tenant/getAll
    @access private
    **/
 
   getAll = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<any> => {
-  const userId = req.user.id;
-  const tenant = await this.tenantDao.getAll(userId); // raw cart items with product relation
- 
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    const userId = req.user.id;
+    const tenant = await this.tenantDao.getAll(userId); // raw tenant items with product relation
 
-  res.status(200).json({
-    status: "success",
-    data: tenant,
-  });
-};
-
+    res.status(200).json({
+      status: "success",
+      data: tenant,
+    });
+  };
 }

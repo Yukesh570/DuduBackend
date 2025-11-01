@@ -1,4 +1,5 @@
 //not completed
+import { Product } from "entity/serviceList/ProductModel";
 import { Cart } from "../../entity/cartModel";
 import { userType } from "../../entity/enum/userType";
 import { Moment } from "moment";
@@ -45,6 +46,8 @@ export class User {
 
   @OneToMany("Order","user", { lazy: true })
   orders!: Promise<Cart[]>;
+  @OneToMany("Product","user", { lazy: true })
+  products!: Promise<Product[]>;
   @CreateDateColumn({ select: true, type: "timestamptz" })
   createdAt?: Moment;
 }

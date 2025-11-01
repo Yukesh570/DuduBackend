@@ -6,9 +6,11 @@ import {
   Relation,
   ManyToOne,
   UpdateDateColumn,
+  OneToMany,
 } from "typeorm";
 import { User } from "./users/user"; // Assuming tenant linked to user
 import { Moment } from "moment";
+import { TenantImage } from "./tenantImageModel";
 
 @Entity()
 export class Tenant {
@@ -31,6 +33,8 @@ export class Tenant {
   @ManyToOne("User", "tenants", { lazy: true, nullable: true })
   user!: Relation<Promise<User>>;
 
+  @OneToMany("TenantImage","tenant", { lazy: true })
+  tenantImages!: Promise<TenantImage[]>;
   // Google Maps marker location as precise decimals
   @Column({ type: "decimal", precision: 10, scale: 7, nullable: true })
   latitude?: number;

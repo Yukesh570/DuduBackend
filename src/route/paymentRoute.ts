@@ -40,7 +40,7 @@ router.get(
     catchAsync(controller.getbypanel)
   )
    router.get(
-    "/getbykhalt",
+    "/getbykhalti/:userId/:productId/:totalPrice",
 
     catchAsync(controller.khaltiCallBack)
   )

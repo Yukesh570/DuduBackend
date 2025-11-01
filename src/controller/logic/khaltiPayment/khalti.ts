@@ -21,7 +21,7 @@ const productIdsString = selectedItems.map(item => item.id).join(',');
   const user =await loginDaoInstance.repository.findOne({where:{id:Number(userId)}});
   console.log("user",user)
   const paymentData = {
-    return_url: `${process.env.BACKEND_API_URL}/api/payment/getbykhalt`,
+    return_url: `${process.env.BACKEND_API_URL}/api/payment/getbykhalti/${userId}/${productIdsString}/${totalPrice}/`,
     website_url: 'https://your-website.com',
     amount: totalPrice,
     purchase_order_id: productIdsString,

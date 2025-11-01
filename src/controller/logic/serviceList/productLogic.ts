@@ -25,6 +25,10 @@ export class ProductController {
     res: Response,
     next: NextFunction
   ): Promise<any> => {
+    const userType = req.user.userType;
+    if (userType != "merchant" && userType != "admin") 
+      return res.status(401).json({ message: "Unauthorized" });
+    const userId = req.user.id;
     const { validatedData: validBody, errors } = await validateBodyInput(
       req,
       ProductCreateBody
@@ -39,30 +43,37 @@ export class ProductController {
     });
     // Check if files are uploaded
     const imageFile = (req.files as any)?.image?.[0];
-    if (!imageFile) {
-      return res.status(400).json({ status: 'fail', message: 'Image file is required' });
-    }
+    // if (!imageFile) {
+    //   return res.status(400).json({ status: 'fail', message: 'Image file is required' });
+    // }
     const videoFile = (req.files as any)?.video?.[0];
-    if (!videoFile) {
-      return res.status(400).json({ status: 'fail', message: 'Video file is required' });
-    }
+    // if (!videoFile) {
+    //   return res.status(400).json({ status: 'fail', message: 'Video file is required' });
+    // }
 
-    const data = {
+    const data:any = {
       ...validBody,
-      image:imageFile.path.replace(/\\/g, "/").split('/public/')[1],
-      video: videoFile.path.replace(/\\/g, "/").split('/public/')[1],
+      userId,
+      // image:imageFile.path.replace(/\\/g, "/").split('/public/')[1],
+      // video: videoFile.path.replace(/\\/g, "/").split('/public/')[1],
 
-order: Math.floor(oderdata ? oderdata.order + 1 : 1),
+      order: Math.floor(oderdata ? oderdata.order + 1 : 1),
       serviceId: categoryData ? categoryData.id : 1,
     };
+      if (imageFile) {
+    data.image = imageFile.path.replace(/\\/g, "/").split('/public/')[1];
+  }
+  if (videoFile) {
+    data.video = videoFile.path.replace(/\\/g, "/").split('/public/')[1];
+  }
     console.log('Product create data:', data);
 
     if (errors) return res.status(400).json(errors);
     // if (req.user.userType !== "admin")
     //   return res.status(401).json({ message: "Unauthorized" });
-    const product = await this.productDao.create({
-      ...data,
-    });
+    const product = await this.productDao.create(
+    data,
+    );
 
     res.status(200).json({
       status: "success",
@@ -261,6 +272,24 @@ order: Math.floor(oderdata ? oderdata.order + 1 : 1),
   ): Promise<any> => {
     const name = req.query.name as string | undefined;
     const product = await this.productDao.getByName(name);
+    res.status(200).json({
+      status: "success",
+      data: product,
+    });
+  };
+  /**
+   @desc Create product
+   @route get /api/product/getByLetter
+   @access private
+   **/
+
+  getByLetter = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+    const name = req.query.name as string | undefined;
+    const product = await this.productDao.getByEachLetter(name);
     res.status(200).json({
       status: "success",
       data: product,

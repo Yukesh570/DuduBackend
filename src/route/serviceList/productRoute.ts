@@ -57,6 +57,10 @@ export function productRoute(): Router {
     catchAsync(controller.getByName)
   )
   router.get(
+    "/getByLetter",
+    catchAsync(controller.getByLetter)
+  )
+  router.get(
     "/getAll",
     catchAsync(controller.getAll)
   )

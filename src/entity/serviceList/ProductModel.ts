@@ -13,14 +13,15 @@ import { Service } from "../../entity/service/service";
 import { Cart } from "../../entity/cartModel";
 import { categoryType } from "../../entity/enum/category";
 import { OrderItem } from "entity/orderItemModel";
+import { User } from "../users/user";
 
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn()
   id!: number;
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar",nullable:true })
   image: string;
-  @Column({ type: "varchar" })
+  @Column({ type: "varchar",nullable:true })
   video: string;
   @Column({ type: "varchar" })
   name: string;
@@ -44,8 +45,11 @@ export class Product {
   @ManyToOne("Service","products", { lazy: true })
   service!: Relation<Promise<Service>>;
 
-  // @OneToMany(() => Cart, (cart) => cart.product, { lazy: true })
-  // carts!: Promise<Cart[]>;
+  @Column({ type: "integer", nullable: true  })
+  userId: number;
+  @ManyToOne("User","products", { lazy: true })
+  user!: Relation<Promise<User>>;
+
 
   @OneToMany("Cart", "product", { lazy: true })
   carts!: Relation<Promise<Cart[]>>;
@@ -53,6 +57,8 @@ export class Product {
   // orderItems!: Relation<Promise<OrderItem[]>>;
   @OneToMany( "OrderItem", "product", { lazy: true })
   orderItems!: Promise<Cart[]>;
+
+ 
   @CreateDateColumn({ select: true, type: "timestamptz" })
   createdAt?: Moment;
 }

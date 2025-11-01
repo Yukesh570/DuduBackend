@@ -32,6 +32,28 @@ const upload = multer({ storage });
 
 export { upload };
 
+const storageTenantImage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    if (file.fieldname === "image") {
+      let folder = "tenants";
+      const dest = path.join(BASE_UPLOAD_PATH,folder);
+      cb(null, dest);
+    } else if (file.fieldname === "video") {
+      const dest = path.join(BASE_UPLOAD_PATH, "tenants");
+      cb(null, dest);
+    } else {
+      cb(new Error("Invalid field name"), "");
+    }
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const uploadTenant = multer({ storage: storageTenantImage });
+
+export { uploadTenant };
+
 const storageEdit = multer.diskStorage({
   destination: async (req, file, cb) => {
     if (file.fieldname === "image") {
@@ -45,10 +67,12 @@ const storageEdit = multer.diskStorage({
 
       const dest = path.join(BASE_UPLOAD_PATH, "serviceList", folder);
       cb(null, dest);
-    } else if (file.fieldname === "video") {
-      const dest = path.join(BASE_UPLOAD_PATH, "videos");
-      cb(null, dest);
-    } else {
+    } 
+    // else if (file.fieldname === "video") {
+    //   const dest = path.join(BASE_UPLOAD_PATH, "videos");
+    //   cb(null, dest);
+    // }
+     else {
       cb(new Error("Invalid field name"), "");
     }
   },

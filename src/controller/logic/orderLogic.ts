@@ -3,12 +3,11 @@ import { NextFunction, Request, Response } from "express";
 import { validateBodyInput } from "../../controller/helper/validate";
 
 import { OrderDao } from "../../dao/orderDao";
-import { OrderCreateBody } from "../../controller/dataClass/orderDataClass";
+import { OrderCreateBody, OrderEditBody } from "../../controller/dataClass/orderDataClass";
 import { AppDataSource } from "../../data-source";
 import { OrderItemDao } from "../../dao/orderItemDao";
 import { parse } from "path";
 import { statusType } from "../../entity/enum/status";
-// import { validateBodyInput } from "controller/helper/validate";
 
 @autoInjectable()
 export class OrderController {
@@ -35,6 +34,7 @@ export class OrderController {
       let results = await AppDataSource.transaction(async (manager) => {
         const orderdata = await this.orderDao.withTransaction(manager).create({
           ...validBody,
+
           userId: req.user.id,
         });
         const orderItemEntities = orderItems.map(
@@ -61,29 +61,48 @@ export class OrderController {
       next(err);
     }
   };
-  //   /**
-  //    @desc Create order
-  //    @route put /api/order/edit:id
-  //    @access private
-  //    **/
-  //   edit = async (
-  //     req: Request,
-  //     res: Response,
-  //     next: NextFunction
-  //   ): Promise<any> => {
-  //     const id = Number(req.params.id);
-  //     const { validatedData: validBody, errors } = await validateBodyInput(
-  //       req,
-  //       CartEditBody
-  //     );
-  //     if (errors) return res.status(400).json(errors);
+    /**
+     @desc Create order
+     @route put /api/order/edit:id
+     @access private
+     **/
+    edit = async (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ): Promise<any> => {
+            const id = Number(req.params.id);
 
-  //     const order = await this.orderDao.update(id, { ...validBody });
-  //     res.status(200).json({
-  //       status: "success",
-  //       data: order,
-  //     });
-  //   };
+      const userType = req.user.userType;
+    if(userType !== "merchant" && userType !== "admin"){
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+     
+    const userId = req.user.id;
+    const orderdata= await this.orderDao.repository
+    .createQueryBuilder("order")
+    .leftJoinAndSelect("order.orderItems", "orderItem")
+    .leftJoinAndSelect("orderItem.product", "product")
+    .where("order.id = :id", { id })
+    .andWhere(
+      "product.userId = :userId", { userId },
+    )
+    .select(["order.id"])
+    .getOne();
+
+    if (!orderdata) return res.status(400).json("Data not found");
+      const { validatedData: validBody, errors } = await validateBodyInput(
+        req,
+        OrderEditBody
+      );
+      if (errors) return res.status(400).json(errors);
+
+      const order = await this.orderDao.updateByMerchant(id, { ...validBody },userId);
+      res.status(200).json({
+        status: "success",
+        data: order,
+      });
+    };
 
   /**
    @desc Create order
@@ -152,6 +171,48 @@ export class OrderController {
     console.log("asdf", status);
     const userId = req.user.id;
     const order = await this.orderDao.getAll(userId, status); // raw order items with product relation
+    if (!order) return res.status(200).json("Data not found");
+    res.status(200).json({
+      status: "success",
+      data: order,
+    });
+  };
+  
+
+
+
+  /**
+   @desc Create order
+   @route get /api/order/getByMerchant
+   @access private
+   **/
+
+  getByMerchant = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<any> => {
+  
+
+   
+    const userType = req.user.userType;
+    if(userType !== "merchant" && userType !== "admin"){
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+    const userId = req.user.id;
+    //Only orderPlaced status displayed
+    const order= await this.orderDao.repository
+    .createQueryBuilder("order")
+    .leftJoinAndSelect("order.orderItems", "orderItem")
+    .leftJoinAndSelect("orderItem.product", "product")
+    .where(
+      "product.userId = :userId", { userId },
+    )
+    .andWhere("order.status != :status", { status: "Pending" })
+    .select(["order.id","order.userId","order.status","order.price","order.createdAt", 
+      "orderItem.id","orderItem.quantity","orderItem.price", 
+      "product.id","product.image","product.name","product.id","product.category","product.userId",])
+    .getMany();
     if (!order) return res.status(200).json("Data not found");
     res.status(200).json({
       status: "success",

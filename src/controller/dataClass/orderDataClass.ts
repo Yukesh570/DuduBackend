@@ -71,16 +71,7 @@ export class OrderEditBody {
   @Type(() => String)
   status: statusType;
 
-  @IsOptional()
-  @IsNumber()
-  @Min(0)
-  @Type(() => Number)
-  price: number;
 
-  @IsOptional()
-  @IsDate()
-  @Type(() => Date)
-  estimatedDeliveryDate: Date;
 
  
 }

@@ -1,25 +1,30 @@
 import { CartController } from "controller/logic/cartLogic";
-import { OrderController } from "../controller/logic/orderLogic";
+import { TenantController } from "../controller/logic/tenantLogic";
 import { Router } from "express";
 import { protect } from "../middleware/auth";
 import { catchAsync } from "../route/helper/catchAsync";
+import { TenantImageController } from "../controller/logic/tenantImageLogic";
+import { uploadTenant } from "../controller/logic/serviceList/storage";
 
 // import { protect } from "../middleware/auth";
 
-
-export function orderRoute(): Router {
+TenantImageController
+export function tenantImageRoute(): Router {
   //@ts-expect-error
-  const controller = new OrderController();
+  const controller = new TenantImageController();
 
   const router = Router();
 
   router.post(
     "/create",
     protect(),
+     uploadTenant.fields([
+    { name: 'image' ,maxCount:10},
+    // { name: 'video', }
+  ]),
 
     catchAsync(controller.create)
   );
-  
 
   router.put(
     "/edit/:id",
@@ -27,12 +32,6 @@ export function orderRoute(): Router {
 
     catchAsync(controller.edit)
   );
-router.get(
-    "/getOne/:id",
-    protect(),
-
-    catchAsync(controller.getbypanel)
-  )
   router.get(
     "/getAll",
     protect(),
@@ -40,10 +39,10 @@ router.get(
     catchAsync(controller.getAll)
   )
   router.get(
-    "/getByMerchant",
+    "/getByTenant/:id",
     protect(),
 
-    catchAsync(controller.getByMerchant)
+    catchAsync(controller.getByTenant)
   )
 
   router.delete("/delete/:id", 
