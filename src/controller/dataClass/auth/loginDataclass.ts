@@ -6,7 +6,7 @@ import {
   IsOptional,
   IsString,
 } from "class-validator";
-import { userType } from "entity/enum/userType";
+import { userType } from "../../../entity/enum/userType";
 
 export class UserCreateDataClass {
   @IsDefined()

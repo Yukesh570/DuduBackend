@@ -1,5 +1,5 @@
 //not completed
-import { Product } from "entity/serviceList/ProductModel";
+import { Product } from "../../entity/serviceList/ProductModel";
 import { Cart } from "../../entity/cartModel";
 import { userType } from "../../entity/enum/userType";
 import { Moment } from "moment";
