@@ -6,7 +6,7 @@ import {
   changePasswordDataClass,
   UserEditDataClass,
 } from "../../../controller/dataClass/auth/loginDataclass";
-import { hashPassword } from "auth/login";
+import { hashPassword } from "../../../auth/login";
 
 // import { validateBodyInput } from "controller/helper/validate";
 
