@@ -8,12 +8,15 @@ import { initiateKhaltiPayment } from "../controller/logic/khaltiPayment/khalti"
 import { tenantRoute } from "./tenantRoute";
 import { paymentRoute } from "./paymentRoute";
 import { tenantImageRoute } from "./tenantImageRoute";
+import { userRoute } from "./auth/userRoute";
 const router = express.Router();
 
 router.use("/service", serviceRoute());
 router.use("/product", productRoute());
 
 router.use("/auth", authRoute());
+router.use("/user", userRoute());
+
 router.use("/cart", cartRoute());
 router.use("/order", orderRoute());
 router.use("/tenant", tenantRoute());

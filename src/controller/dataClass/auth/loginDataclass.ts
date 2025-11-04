@@ -3,6 +3,7 @@ import {
   IsDefined,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from "class-validator";
@@ -29,6 +30,24 @@ export class UserCreateDataClass {
   @IsEnum(userType)
   @Type(() => String)
   userType: userType;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  email: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  phoneNumber: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  address: string;
 }
 export class UserDataClass {
   @IsDefined()
@@ -45,4 +64,48 @@ export class UserDataClass {
   @IsString()
   @Type(() => String)
   password: string;
+}
+export class UserEditDataClass {
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  @Transform(({ value }) => (value ? value.toLowerCase() : null), {
+    toClassOnly: true,
+  })
+  username: string;
+
+  @IsOptional()
+  @IsString()
+  @IsEnum(userType)
+  @Type(() => String)
+  userType: userType;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  email: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  phoneNumber: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  address: string;
+}
+
+
+export class changePasswordDataClass {
+  @IsDefined()
+  @IsNotEmpty()
+  @IsString()
+  @Type(() => String)
+  password: string;
+
 }
