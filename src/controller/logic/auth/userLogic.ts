@@ -5,7 +5,7 @@ import { LoginDao } from "../../../dao/auth/loginDao";
 import {
   changePasswordDataClass,
   UserEditDataClass,
-} from "controller/dataClass/auth/loginDataclass";
+} from "../../../controller/dataClass/auth/loginDataclass";
 import { hashPassword } from "auth/login";
 
 // import { validateBodyInput } from "controller/helper/validate";
