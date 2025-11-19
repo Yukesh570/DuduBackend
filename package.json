@@ -13,7 +13,9 @@
     "clean": "rimraf ./dist",
     "build": "tsc",
     "start": "node dist/index.js",
-    "vercel-build": "tsc"
+    "vercel-build": "tsc",
+    "test": "jest"
+
   },
   "pre-commit": [
     "build"
@@ -44,11 +46,14 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "@types/jest": "^30.0.0",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.2.1",
     "@vercel/node": "^5.3.23",
+    "jest": "^30.2.0",
     "nodemon": "^3.1.10",
+    "ts-jest": "^29.4.5",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.8.16",
     "tsconfig-paths": "^4.2.0",

@@ -68,10 +68,10 @@ const storageEdit = multer.diskStorage({
       const dest = path.join(BASE_UPLOAD_PATH, "serviceList", folder);
       cb(null, dest);
     } 
-    // else if (file.fieldname === "video") {
-    //   const dest = path.join(BASE_UPLOAD_PATH, "videos");
-    //   cb(null, dest);
-    // }
+    else if (file.fieldname === "video") {
+      const dest = path.join(BASE_UPLOAD_PATH, "videos");
+      cb(null, dest);
+    }
      else {
       cb(new Error("Invalid field name"), "");
     }
