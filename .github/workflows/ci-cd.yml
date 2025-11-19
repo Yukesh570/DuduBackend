@@ -95,6 +95,8 @@ jobs:
             docker run -d \
               --name dudu_backend \
               -p 3000:3000 \
+              --memory="1.5g" \            # Limit container memory to 1.5 GB
+              --memory-swap="2g" \          # Allow up to 2 GB swap
               -e BACKEND_API_URL=${{ secrets.BACKEND_API_URL }} \
               -e POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
               -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
@@ -105,5 +107,6 @@ jobs:
               -e NODE_ENV=${{ secrets.NODE_ENV }} \
               -e PORT=${{ secrets.PORT }} \
               ${{ secrets.DOCKER_USERNAME }}/dudu_backend:latest
+
             # Run migrations inside container if needed
             docker exec dudu_backend npm run migration:dev:run
