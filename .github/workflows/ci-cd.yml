@@ -94,6 +94,18 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/dudu_backend:latest
             docker stop dudu_backend || true
             docker rm dudu_backend || true
-            docker run -d --name dudu_backend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/dudu_backend:latest
+            docker run -d \
+              --name dudu_backend \
+              -p 3000:3000 \
+              -e BACKEND_API_URL=${{ secrets.BACKEND_API_URL }} \
+              -e POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
+              -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+              -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+              -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+              -e POSTGRES_PORT=${{ secrets.POSTGRES_PORT }} \
+              -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
+              -e NODE_ENV=${{ secrets.NODE_ENV }} \
+              -e PORT=${{ secrets.PORT }} \
+              ${{ secrets.DOCKER_USERNAME }}/dudu_backend:latest
             # Run migrations inside container if needed
             docker exec dudu_backend npm run migration:dev:run
