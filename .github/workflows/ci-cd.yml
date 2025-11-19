@@ -28,7 +28,7 @@ jobs:
           --health-retries 5
 
     env:
-      POSTGRES_HOST: localhost
+      POSTGRES_HOST: dudu_postgres
       POSTGRES_PORT: 5432
       POSTGRES_USER: dudu
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
@@ -94,9 +94,15 @@ jobs:
             docker rm dudu_backend || true
             docker run -d \
               --name dudu_backend \
+              --network dudu_network \
               -p 3000:3000 \
               -e BACKEND_API_URL=${{ secrets.BACKEND_API_URL }} \
               -e JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} \
+              -e POSTGRES_HOST=${{ secrets.POSTGRES_HOST }} \
+              -e POSTGRES_USER=dudu \
+              -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+              -e POSTGRES_DB=dudu_db \
+              -e POSTGRES_PORT=5432 \
               -e NODE_ENV=${{ secrets.NODE_ENV }} \
               -e PORT=${{ secrets.PORT }} \
               ${{ secrets.DOCKER_USERNAME }}/dudu_backend:latest
