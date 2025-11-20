@@ -56,8 +56,6 @@ jobs:
             set -e
             cd "$REMOTE_DIR"
             echo "--- Rebuilding Docker Containers ---"
-            chmod -R 755 "$REMOTE_DIR"
-
             docker compose down || true
             docker compose up -d --build
             echo "--- Running TypeORM Migrations ---"
