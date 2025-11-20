@@ -13,4 +13,4 @@ COPY . .
 
 # For production (build and start)
 RUN npm run build
-CMD ["npm", "start"]
+CMD ["node", "dist/index.js"]
