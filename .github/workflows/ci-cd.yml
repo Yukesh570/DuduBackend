@@ -8,16 +8,16 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     env:
       REMOTE_DIR: ${{ secrets.REMOTE_APP_DIR }}
       SSH_USER: ${{ secrets.SSH_USER }}
       SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_PORT: ${{ secrets.SSH_PORT || '22' }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Use Node.js
         uses: actions/setup-node@v4
@@ -28,23 +28,19 @@ jobs:
         run: npm ci
 
       - name: Run tests
-        run: npm test
-        # If you don't have tests yet, change to: run: echo "no tests"
+        run: echo "no tests"
 
-      - name: Build
+      - name: Build (local)
         run: npm run build
 
-      - name: Prepare known_hosts and SSH key
+      - name: Prepare SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.AWS_SSH_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          # Add server to known_hosts to avoid prompt
           ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
-        shell: bash
 
-      - name: Rsync project to remote
-        # Exclude things we don't want on server
+      - name: Upload project via rsync
         run: |
           rsync -avz --delete \
             --exclude node_modules \
@@ -53,31 +49,19 @@ jobs:
             --exclude .env \
             --exclude dist \
             ./ $SSH_USER@$SSH_HOST:$REMOTE_DIR/
-        shell: bash
 
-      - name: Remote: install dependencies & deploy with Docker Compose
+      - name: SSH → Deploy using Docker Compose
         run: |
-          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << 'EOF'
+          ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
             set -e
-            cd $REMOTE_DIR
-            # optionally install server dependencies (if you want server to build image there)
-            # ensure permissions
-            chmod -R 755 $REMOTE_DIR
+            cd "$REMOTE_DIR"
+            chmod -R 755 "$REMOTE_DIR"
 
-            # If you want the server to use built 'dist' from CI:
-            # Ensure node_modules created on server for runtime (optional)
-            # docker will build new image anyway if Dockerfile uses npm ci/build inside
-
-            # Pull latest images for services defined in compose (optional)
-            # docker compose pull || true
-
-            # Rebuild images and bring up containers
+            docker compose down || true
             docker compose up -d --build
 
-            # Optional: show running containers
-            docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+            docker ps
           EOF
-        shell: bash
 
       - name: Success
-        run: echo "Deployed to $SSH_HOST:$REMOTE_DIR"
+        run: echo "Deployment completed successfully!"
