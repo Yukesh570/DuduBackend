@@ -14,4 +14,8 @@ COPY . .
 # For production (build and start)
 RUN npm run build
 EXPOSE 3000
-CMD npm run migration:prod:run && npm start
+RUN apt-get update && apt-get install -y postgresql-client
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+CMD ["/entrypoint.sh"]
