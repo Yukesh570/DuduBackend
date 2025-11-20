@@ -12,20 +12,20 @@ export const AppDataSource = new DataSource({
   database: process.env.POSTGRES_DB,
   synchronize: false,
   logging: false,
-  // entities:
-  //   process.env.NODE_ENV === "local"
-  //     ? ["src/entity/**/*.ts"]
-  //     : ["dist/entity/**/*.js"],
-
-  // migrations:
-  //   process.env.NODE_ENV === "local"
-  //     ? ["src/migration/*.ts"]
-  //     : ["dist/migration/*.js"],
   entities:
-      ["dist/entity/**/*.js"],
+    process.env.NODE_ENV === "local"
+      ? ["src/entity/**/*.ts"]
+      : ["dist/entity/**/*.js"],
 
   migrations:
-      ["dist/migration/*.js"],
+    process.env.NODE_ENV === "local"
+      ? ["src/migration/*.ts"]
+      : ["dist/migration/*.js"],
+  // entities:
+  //     ["dist/entity/**/*.js"],
+
+  // migrations:
+  //     ["dist/migration/*.js"],
 
   //     ssl:
   //      {
