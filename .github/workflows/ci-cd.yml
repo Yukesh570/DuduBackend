@@ -50,16 +50,20 @@ jobs:
             --exclude dist \
             ./ $SSH_USER@$SSH_HOST:$REMOTE_DIR/
 
-      - name: SSH → Deploy using Docker Compose
+      - name: SSH → Deploy & Run Migrations
         run: |
           ssh -p $SSH_PORT $SSH_USER@$SSH_HOST << EOF
             set -e
             cd "$REMOTE_DIR"
+            echo "--- Rebuilding Docker Containers ---"
             chmod -R 755 "$REMOTE_DIR"
 
             docker compose down || true
             docker compose up -d --build
-
+            echo "--- Running TypeORM Migrations ---"
+            docker compose exec backend \
+              npm run migration:dev:run
+            echo "--- Deployment Done ---"
             docker ps
           EOF
 
