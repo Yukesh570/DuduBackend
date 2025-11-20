@@ -10,7 +10,7 @@
     "migration:dev:generate": "ts-node  -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d ./src/data-source.ts -p",
     "migration:dev:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./src/data-source.ts",
     "migration:dev:revert": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:revert -d ./src/data-source.ts",
-    "migration:prod:run": "node ./dist/node_modules/typeorm/cli.js migration:run -d ./dist/data-source.js",
+"migration:prod:run": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:run -d ./dist/data-source.js",
 
     "clean": "rimraf ./dist",
     "build": "tsc ",
