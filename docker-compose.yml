@@ -5,7 +5,7 @@ services:
     restart: always
     environment:
       POSTGRES_USER: dudu
-      POSTGRES_PASSWORD: zukti5570)
+      POSTGRES_PASSWORD: zukti5570
       POSTGRES_DB: dudu_db
     ports:
       - "5433:5432"
@@ -25,7 +25,7 @@ services:
       - POSTGRES_HOST=db
       - POSTGRES_PORT=5432
       - POSTGRES_USER=dudu
-      - POSTGRES_PASSWORD=zukti5570)
+      - POSTGRES_PASSWORD=zukti5570
       - POSTGRES_DB=dudu_db
 
 volumes:
