@@ -13,4 +13,5 @@ COPY . .
 
 # For production (build and start)
 RUN npm run build
-CMD ["npm", "start"]
+EXPOSE 3000
+CMD npm run migration:prod:run && npm start

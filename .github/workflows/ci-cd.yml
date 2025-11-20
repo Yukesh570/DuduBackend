@@ -58,9 +58,7 @@ jobs:
             echo "--- Rebuilding Docker Containers ---"
             docker compose down || true
             docker compose up -d --build
-            echo "--- Running TypeORM Migrations ---"
             docker compose exec backend \
-              npm run migration:prod:run
             echo "--- Deployment Done ---"
             docker ps
           EOF
