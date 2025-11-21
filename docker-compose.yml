@@ -26,7 +26,7 @@ services:
       - POSTGRES_DB=dudu_db
       - NODE_ENV=production
     volumes:
-      - ./public:/app/public
+      - /Users/yukesh/Dudu_Backend/public:/app/public
 
 
 volumes:
