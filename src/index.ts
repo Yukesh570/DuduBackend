@@ -31,7 +31,6 @@ app.get("/", (req, res) => {
     res.send("working");
 });
 
-
 // app.listen(port,async()=>{
 //     await initializeDB(),
 //     console.log(`server is running on port ${port}`)
