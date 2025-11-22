@@ -25,9 +25,6 @@ services:
       - POSTGRES_PASSWORD=zukti5570
       - POSTGRES_DB=dudu_db
       - NODE_ENV=production
-    volumes:
-      - /Users/yukesh/Dudu_Backend/public:/app/public
-
 
 volumes:
   pgdata:

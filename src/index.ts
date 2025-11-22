@@ -7,8 +7,10 @@ import { initializeDB } from "./db";
 import { router } from "./route/route";
 import path from "path";
 import 'tsconfig-paths/register';
+import { fileURLToPath } from "url";
 
 const port = process.env.PORT || 3000;
+const __dirname = path.resolve();
 
 const app=express()
 app.use(cors({
@@ -17,11 +19,11 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 app.use(express.json())
-app.use('/serviceList', express.static(path.join(__dirname, '../public/serviceList')));
-app.use('/services', express.static(path.join(__dirname, '../public/services')));
-app.use('/tenants', express.static(path.join(__dirname, '../public/tenants')));
+app.use('/serviceList', express.static(path.join(__dirname, 'public/serviceList')));
+app.use('/services', express.static(path.join(__dirname, 'public/services')));
+app.use('/tenants', express.static(path.join(__dirname, 'public/tenants')));
 
-app.use('/videos', express.static(path.join(__dirname, '../public/videos')));
+app.use('/videos', express.static(path.join(__dirname, 'public/videos')));
 
 // app.use(cors({
 //     origin: "*"
