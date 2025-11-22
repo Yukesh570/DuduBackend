@@ -43,6 +43,7 @@ jobs:
       - name: Upload project via rsync
         run: |
           rsync -avz --delete \
+            --exclude public \
             --exclude node_modules \
             --exclude .git \
             --exclude .github \
